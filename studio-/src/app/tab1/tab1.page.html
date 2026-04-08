@@ -1,0 +1,53 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title color="black">
+      Buenos Dias - {{ fechaactual | date: 'dd/MM/yyyy' }}  <!--esto renderiza la fecha actual la cual se encuentra en el archivo-->
+                                                            <!--tab1.page.ts en la fncion nginit-->
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+   <ion-title color="black">
+      Buenos Dias - {{ fechaactual | date: 'dd/MM/yyyy' }}  <!--esto renderiza la fecha actual la cual se encuentra en el archivo-->
+                                                            <!--tab1.page.ts en la fncion nginit-->
+    </ion-title>
+  </ion-header>
+
+  <ion-text color="black">
+    <h1>Tareas Proximas a vencer</h1>
+  </ion-text>
+
+
+  <ion-card>
+  <ion-card-header>
+    <ion-card-title>Titulo de la tarea</ion-card-title>
+    <ion-card-subtitle>Fecha de vencimiento</ion-card-subtitle>
+  </ion-card-header>
+
+
+   <ion-card-content>
+    Here's a small text description for the card content. Nothing more, nothing less.
+  </ion-card-content>
+
+</ion-card>
+
+
+
+
+   <ion-card>
+    <ion-card-header>
+    <ion-card-title>Titulo de la tarea</ion-card-title>
+    <ion-card-subtitle>Fecha de vencimiento</ion-card-subtitle>
+  </ion-card-header>
+
+
+   <ion-card-content>
+    Here's a small text description for the card content. Nothing more, nothing less.
+  </ion-card-content>
+
+  </ion-card>
+
+</ion-content>
