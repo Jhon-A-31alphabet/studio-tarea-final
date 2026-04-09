@@ -41,14 +41,14 @@
 
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button color="primary" id="open-modal">
+    <ion-fab-button color="primary" id="open-modal-materias">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
 
 
-  <ion-modal trigger="open-modal">
+  <ion-modal trigger="open-modal-materias">
     <ng-template>
       <ion-header>
         <ion-toolbar>
@@ -64,7 +64,6 @@
 
       <ion-content class="ion-padding">
         <ion-item>
-          
           <ion-label position="stacked">Nombre de la Materia</ion-label>
           <ion-input type="text" placeholder="Ej. Programación 1"></ion-input>
         </ion-item>
