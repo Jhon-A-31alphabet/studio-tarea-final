@@ -8,6 +8,8 @@ import {
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { add } from 'ionicons/icons';
+import { Router } from '@angular/router'; // Importa Router
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-tab2',
@@ -25,7 +27,7 @@ export class Tab2Page {
   // Usamos el decorador para capturar la instancia del modal del HTML
   @ViewChild(IonModal) modal!: IonModal;
 
-  constructor() {
+  constructor(private router:Router) {
     addIcons({ add });
   }
 
@@ -38,4 +40,11 @@ export class Tab2Page {
     console.log('Materia aceptada');
     this.modal.dismiss(null, 'confirm');
   }
+
+  abrir_lista_notas(){
+    const materia = "nombre de la materia ";   // <-- aqui debes capturar el nombre de la materia
+    this.router.navigate(['/note-list'],{queryParams:{title:materia}});
+  }
+
+
 }
