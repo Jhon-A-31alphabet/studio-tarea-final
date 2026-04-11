@@ -7,7 +7,7 @@ import {
    IonInput, IonItem, IonLabel,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { add } from 'ionicons/icons';
+import { add,trash } from 'ionicons/icons';
 import { Router } from '@angular/router'; // Importa Router
 import { Title } from '@angular/platform-browser';
 
@@ -29,6 +29,7 @@ export class Tab2Page {
 
   constructor(private router:Router) {
     addIcons({ add });
+    addIcons({trash})
   }
 
   ngOnInit(){ // aqui deberas ejecutar la query sql para mostrar todas las materias almacenadas y con el view engine de angular

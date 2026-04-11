@@ -4,6 +4,8 @@
               Tareas por hacer   -    {{ fechaactual | date: 'dd/MM/yyyy' }}  
               <!-- a traves del view engine de angular se puede cargar la fecha actual y mostrarla dinamicamene
                en el html, ( revisar el archivo tab3.page.ts)-->
+
+
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -58,17 +60,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 <!--modal para agregar una tarea-->
 
   <ion-modal trigger="open-modal-tareas">
@@ -81,7 +72,9 @@
             <ion-button [strong]="true" (click)="aceptar()" expand="full" class="modal_buttons">Aceptar</ion-button>
             <ion-button (click)="cancelar()" expand="full" class="modal_buttons">Cancelar</ion-button>
 
+            <!-- la definicion y uso que le daras a los botones cancelar y aceptar estan en el archivo tab3.page.ts-->
 
+            
         </ion-toolbar>
       </ion-header>
 

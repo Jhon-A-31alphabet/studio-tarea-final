@@ -4,7 +4,7 @@ import{IonToolbar,IonTitle,IonContent,IonHeader,IonCard,IonCardTitle,
   IonCardContent,IonCardHeader,IonItem,IonFab,IonFabButton,
   IonIcon} from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { arrowBackOutline } from 'ionicons/icons';
+import { arrowBackOutline,trash } from 'ionicons/icons';
 import { Router } from '@angular/router'; 
 
 @Component({
@@ -21,6 +21,7 @@ export class NoteListPage implements OnInit {
 
   constructor(private route: ActivatedRoute,private router:Router) {
     addIcons({arrowBackOutline});
+    addIcons({trash})
   }
 
   ngOnInit() {
