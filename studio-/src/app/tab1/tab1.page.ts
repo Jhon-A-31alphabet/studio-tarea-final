@@ -12,12 +12,18 @@ import { DatePipe } from '@angular/common';
   imports: [IonHeader, IonToolbar, IonTitle, IonContent,IonText,IonCard,IonCardContent,IonCardHeader,IonCardTitle,IonCardSubtitle,DatePipe],
 })
 export class Tab1Page {
+
   fechaactual : Date =new Date();
   constructor() {}
 
-  ngOnInit() {
-    () => {
+  ngOnInit() { 
+    
+    () => { //funcion flecha para capturar la fecha actual
       this.fechaactual = new Date();
+   
     };
+
+    //dentro de esta misma funcion  ngOnInit: Deberas mostrar los eventos o tareas las cuales estan a 2 horas de llegar la fehca y el dia acordado
+
   }
 }

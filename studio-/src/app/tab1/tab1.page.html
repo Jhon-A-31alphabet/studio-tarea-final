@@ -1,7 +1,8 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title color="black" class="titulo">
-       Buenos Dias - {{ fechaactual | date: 'dd/MM/yyyy' }}
+       Buenos Dias - {{ fechaactual | date: 'dd/MM/yyyy' }} <!--aqui se muestra el dia actual, usando el view engine de angular-->
+       <!-- (ve al archivo tab1.page.ts)-->
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -19,13 +20,12 @@
   </ion-text>
 
 
-  <ion-card class="card_note">
+  <ion-card class="card_note">     <!-- en el ioncard debera mostrar el titulo de la tarea de la tarea y una breve descripcion la cual basta con tan solo 10 caracteres-->
+    <!-- la cual se faltas dos horas antes de lo agregado en el datetime  para empezarla o cumplirla-->  <!--la fecha puesta en este ioncard es solo un ejemplo al igual que la descripcion-->
   <ion-card-header >
     <ion-card-title>Titulo de la tarea</ion-card-title>
     <ion-card-subtitle>Vencimiento : 20/04/2026</ion-card-subtitle>
   </ion-card-header>
-
-
    <ion-card-content>
     Here's a small text description for the card content. Nothing more, nothing less.
   </ion-card-content>

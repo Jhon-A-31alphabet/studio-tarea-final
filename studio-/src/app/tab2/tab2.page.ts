@@ -4,7 +4,7 @@ import {
   IonHeader, IonToolbar, IonTitle, IonContent, 
   IonCard, IonCardHeader, IonCardTitle, IonModal,
   IonFab, IonFabButton, IonIcon, IonButton, 
-   IonInput, IonItem, IonLabel 
+   IonInput, IonItem, IonLabel,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { add } from 'ionicons/icons';
@@ -20,7 +20,7 @@ import { Title } from '@angular/platform-browser';
     IonHeader, IonToolbar, IonTitle, IonContent, IonCard, 
     IonCardHeader, IonCardTitle, IonFab, IonFabButton, 
     IonIcon, IonModal, IonButton, IonInput, 
-    IonItem, IonLabel
+    IonItem, IonLabel,
   ]
 })
 export class Tab2Page {
@@ -31,18 +31,25 @@ export class Tab2Page {
     addIcons({ add });
   }
 
+  ngOnInit(){ // aqui deberas ejecutar la query sql para mostrar todas las materias almacenadas y con el view engine de angular
+    //mostrarlas y estilizarlas en la pagina tab2.page.html
+
+  }
+
+
   cancelar() {
     this.modal.dismiss(null, 'cancel');
   }
 
   aceptar() {
-    // Aquí podrías capturar los datos del input antes de cerrar
+    // Aquí deberas capturar el nombre de la materia creada y guardarla en la base de datos sqlite.
     console.log('Materia aceptada');
     this.modal.dismiss(null, 'confirm');
   }
 
   abrir_lista_notas(){
-    const materia = "nombre de la materia ";   // <-- aqui debes capturar el nombre de la materia
+    const materia = "nombre de la materia ";   // <-- aqui se debera capturar el nombre de la materia para asi colocar en el iontitle
+                                                // el nombre de la materia
     this.router.navigate(['/note-list'],{queryParams:{title:materia}});
   }
 

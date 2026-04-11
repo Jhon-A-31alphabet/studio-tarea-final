@@ -30,7 +30,7 @@ export class Tab3Page {
 
   ngOnInit() {
     () => {
-      this.fechaactual = new Date();
+      this.fechaactual = new Date();  // conseguir la fecha actual
     };
   }
 
@@ -41,9 +41,15 @@ export class Tab3Page {
   }
 
   // Función para confirmar y cerrar el modal
-  aceptar() {
+  aceptar() {   
     console.log('Materia aceptada');
-    this.modal.dismiss(null, 'confirm');
+    this.modal.dismiss(null, 'confirm');   // el codigo mostrado aqui no sirve para nada, se utilizo de ejemplo,
+                                           // dentro de esta funcion se debera guardar la tarea en la base de datos sqlite y ademas
+                                           // se debera programar el taskscheduler del sistema operativo para cuando llegue esa fecha y hora
+                                           // se dispare una notificacion
+                                           //ademas se debera crear un ioncard con el formato visto en el archivo tab3.page.html el cual contenga
+                                           //todos los elementos mostrados de ejemplo.  ( ve al archivo tab3.page.html y mira el ejemplo )
+
   }
 
 }

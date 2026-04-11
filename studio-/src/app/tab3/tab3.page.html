@@ -1,7 +1,9 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title class="titulo">
-              Tareas por hacer   -    {{ fechaactual | date: 'dd/MM/yyyy' }} 
+              Tareas por hacer   -    {{ fechaactual | date: 'dd/MM/yyyy' }}  
+              <!-- a traves del view engine de angular se puede cargar la fecha actual y mostrarla dinamicamene
+               en el html, ( revisar el archivo tab3.page.ts)-->
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -11,27 +13,20 @@
   <ion-header collapse="condense">
   </ion-header>
 
-  <!--  las tareas deben cargarse dinamicamente, estas debeen estas almacenadas-->
-    <!--eso es a eleccion de yamell-->
+<!-- las tareas o eventos deberan guardarse en la base de datos sqlite y con el taskscheduler de capacitor (capacitor notification) para asi mostrarse el dia y hora acordado,
+ ademas,estas deberan cargarse y mostrarse, usando el view engine de angular-->
 
 
-
-
+<!-- los ioncards mostrados aqui son de ejemplo de como deberian de verse las tareas y las clases y paramtros que llevan-->
   <ion-card>
     <ion-item>
       <ion-checkbox>Descripcion de la Tarea</ion-checkbox>
     </ion-item>
-  
-
     <ion-item>
-      <ion-icon name="trash"></ion-icon>
-
-      <ion-label>08/04/2026</ion-label>
-      <ion-label>07:40</ion-label>
-
+      <ion-icon name="trash"></ion-icon>  <!-- este icono debera eliminar la tarea tanto de la interfaz como del localstorage y la base de datos-->
+      <ion-label>08/04/2026</ion-label> <!--aqui se muestra la fecha-->
+      <ion-label>07:40</ion-label> <!--aqui la hora-->
     </ion-item>
-
-   
   </ion-card>
 
 
@@ -55,13 +50,7 @@
 
 
 
-
-
-
-
-
-
-  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">   <!--este es el boton el cual entra a un modal para agregar una tarea-->
     <ion-fab-button  id="open-modal-tareas" class="agregar">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
@@ -80,7 +69,7 @@
 
 
 
-
+<!--modal para agregar una tarea-->
 
   <ion-modal trigger="open-modal-tareas">
     <ng-template>

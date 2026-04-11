@@ -40,7 +40,7 @@
 
 
 
-  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">  <!-- este es el boton para agregar una nueva materia +  -->
     <ion-fab-button  id="open-modal-materias" class="agregar">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
@@ -58,6 +58,9 @@
           <ion-button [strong]="true" (click)="aceptar()" class="modal_buttons" expand="full">Aceptar</ion-button>
           <ion-button [strong]="true" (click)="cancelar()" class="modal_buttons" expand="full">Cancelar</ion-button>
 
+          <!-- el ionbutton aceptar debera guardar en la base de datos el nombre y id de la materia y crear un ioncard-->
+           <!-- con el nombre de la materia y el color el cual sera seleccionado a traves del color
+            picker nativo del sistema operativo como el que se muestra en la parte de arriba....   -->
            
         
 
