@@ -35,3 +35,23 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
+
+
+
+.titulo{
+color: black;
+    font-family:'inter';
+    font-weight: bold;
+}
+.card_note{
+    background: #FEFCE8;
+}
+
+.agregar{
+    --background:#EA580C;
+}
+
+.tabbutton{
+    --color-focused:#EA580C;
+    --color-selected:#EA580C;
+}
