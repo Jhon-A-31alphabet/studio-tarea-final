@@ -25,7 +25,7 @@
 
 
 <ion-item>
-  <ion-card>
+  <ion-card (click)="abrir_bloc_notas()">
   <ion-card-header>
     <ion-card-title>Titulo de la nota</ion-card-title>
     <ion-card-content>Lorem ipsum dolor sit amet consectetur 
@@ -37,7 +37,7 @@
 </ion-item>
 
 <ion-item>
-  <ion-card>
+  <ion-card (click)="abrir_bloc_notas()">
   <ion-card-header>
     <ion-card-title>Titulo de la nota</ion-card-title>
     <ion-card-content>Lorem ipsum dolor sit amet consectetur 
@@ -51,7 +51,11 @@
 
 
 
-
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button color="primary" (click)="abrir_bloc_notas()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
 </ion-content>
 

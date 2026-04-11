@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import{IonToolbar,IonTitle,IonContent,IonHeader,IonCard,IonCardTitle,
-  IonCardContent,IonCardHeader,IonItem,
+  IonCardContent,IonCardHeader,IonItem,IonFab,IonFabButton,
   IonIcon} from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { arrowBackOutline } from 'ionicons/icons';
@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./note-list.page.scss'],
   imports:[IonToolbar,IonTitle,IonContent,IonHeader,IonCard,IonCardTitle,
     IonCardContent,IonCardHeader,IonCard,IonItem,
-  IonIcon],
+  IonIcon,IonFab,IonFabButton],
 })
 
 export class NoteListPage implements OnInit {
@@ -31,6 +31,10 @@ export class NoteListPage implements OnInit {
 
   regresar_a_materias(){
     this.router.navigate(['/tabs/tab2']);
+  }
+
+  abrir_bloc_notas(){
+    this.router.navigate(['/notepad'])
   }
 }
 
