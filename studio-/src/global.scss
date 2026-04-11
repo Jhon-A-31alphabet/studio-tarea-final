@@ -49,9 +49,32 @@ color: black;
 
 .agregar{
     --background:#EA580C;
+    --color:#FFFF;
 }
 
 .tabbutton{
     --color-focused:#EA580C;
     --color-selected:#EA580C;
+}
+
+
+.modal_buttons{
+    --background:#EA580C; /* Color de fondo */
+    --color: white; /* Color del texto */
+    
+    
+}
+
+.modal_buttons_background_W {
+        --background: #ffffff;
+
+}
+
+:root {
+	--ion-color-primary: #EA580C;
+	--ion-color-primary-rgb: 234,88,12;
+	--ion-color-primary-contrast: #000000;
+	--ion-color-primary-contrast-rgb: 0,0,0;
+	--ion-color-primary-shade: #ce4d0b;
+	--ion-color-primary-tint: #ec6924;
 }

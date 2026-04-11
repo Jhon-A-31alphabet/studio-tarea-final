@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
+    <ion-title class="titulo">
               Tareas por hacer   -    {{ fechaactual | date: 'dd/MM/yyyy' }} 
     </ion-title>
   </ion-toolbar>
@@ -62,7 +62,7 @@
 
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button color="primary" id="open-modal-tareas">
+    <ion-fab-button  id="open-modal-tareas" class="agregar">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
@@ -86,13 +86,13 @@
     <ng-template>
       <ion-header>
         <ion-toolbar>
-          <ion-button slot="start">
-            <ion-button (click)="cancelar()">Cancelar</ion-button>
-          </ion-button>
-          <ion-title>Nueva Tarea</ion-title>
-          <ion-button slot="end">
-            <ion-button [strong]="true" (click)="aceptar()">Aceptar</ion-button>
-          </ion-button>
+
+            <ion-title class="titulo">Nueva Tarea</ion-title>
+
+            <ion-button [strong]="true" (click)="aceptar()" expand="full" class="modal_buttons">Aceptar</ion-button>
+            <ion-button (click)="cancelar()" expand="full" class="modal_buttons">Cancelar</ion-button>
+
+
         </ion-toolbar>
       </ion-header>
 
@@ -102,7 +102,7 @@
           <ion-label position="stacked"></ion-label>
           <ion-input type="text" placeholder="cocinar la cena"></ion-input>
         </ion-item>
-        <ion-datetime></ion-datetime>
+        <ion-datetime class="datetime_style" color="primary"></ion-datetime>
         <ion-item>
          
         </ion-item>

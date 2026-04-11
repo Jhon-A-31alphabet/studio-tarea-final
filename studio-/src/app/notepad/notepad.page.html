@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Bloc de notas</ion-title>
+    <ion-title class="titulo">Bloc de notas</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -16,15 +16,13 @@
   <ion-icon name= "arrow-back-outline" (click)="regresar_a_lista_notas()"></ion-icon>
 </ion-item>
 
-<ion-textarea label="Titulo" labelPlacement="floating" fill="solid" placeholder="Enter text"></ion-textarea>
+<ion-textarea label="Titulo" labelPlacement="floating" fill="outline" placeholder="Escribe el titulo aqui" id="text_area_titulo"></ion-textarea>
 
 
 <ion-item>
   <ion-textarea
-    placeholder="Type something here"
-    [autoGrow]="true"
-    value="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tellus sem, auctor accumsan egestas sed, venenatis at ex. Nam consequat ex odio, suscipit rhoncus orci dictum eget. Aenean sit amet ligula varius felis facilisis lacinia nec volutpat nulla. Duis ullamcorper sit amet turpis sed blandit. Integer pretium massa eu faucibus interdum."
-  >
+    placeholder="Escribe algo aqui"
+    [autoGrow]="true" id="text_area_nota">
   </ion-textarea>
 </ion-item>
 
