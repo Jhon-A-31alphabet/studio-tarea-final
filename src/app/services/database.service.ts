@@ -1,153 +1,221 @@
 import { Injectable } from '@angular/core';
-import { CapacitorSQLite, SQLiteConnection, SQLiteDBConnection } from '@capacitor-community/sqlite';
-import { Capacitor } from '@capacitor/core';
+import { LocalNotifications } from '@capacitor/local-notifications';
+
+// Interfaces
+export interface Subject {
+  id: number;
+  name: string;
+  color: string;
+}
+
+export interface Note {
+  id: number;
+  subject_id: number;
+  title: string;
+  content: string;
+}
+
+export interface Task {
+  id: number;
+  description: string;
+  date: string;
+  time: string;
+  completed: boolean;
+  subject_id: number;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class DatabaseService {
-  private sqlite: SQLiteConnection;
-  private db: SQLiteDBConnection | null = null;
-  private isInit = false;
+  private subjects: Subject[] = [];
+  private notes: Note[] = [];
+  private tasks: Task[] = [];
+  private nextSubjectId = 1;
+  private nextNoteId = 1;
+  private nextTaskId = 1;
 
   constructor() {
-    this.sqlite = new SQLiteConnection(CapacitorSQLite);
+    this.loadDataFromLocalStorage();
   }
 
-  async initializeDatabase() {
-    // Solo inicializar si estamos en Android/iOS
-    if (Capacitor.getPlatform() === 'web') {
-      console.log('En web, no se inicializa SQLite');
-      return;
-    }
+  async initializeDatabase(): Promise<void> {
+    this.loadDataFromLocalStorage();
+  }
 
-    if (this.isInit && this.db) {
-      console.log('Base de datos ya inicializada');
-      return;
+  private loadDataFromLocalStorage(): void {
+    const subjectsData = localStorage.getItem('subjects');
+    const notesData = localStorage.getItem('notes');
+    const tasksData = localStorage.getItem('tasks');
+
+    if (subjectsData) {
+      this.subjects = JSON.parse(subjectsData);
+      this.nextSubjectId = Math.max(...this.subjects.map(s => s.id), 0) + 1;
     }
-    
-    try {
-      console.log('Inicializando base de datos en Android...');
-      
-      // Para Android, usar la configuración específica
-      this.db = await this.sqlite.createConnection(
-        'tareas_db',
-        false,
-        'no-encryption',
-        1,
-        false
-      );
-      
-      await this.db.open();
-      console.log('Conexión a BD abierta');
-      
-      // Crear la tabla de tareas
-      const query = `
-        CREATE TABLE IF NOT EXISTS tareas (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          descripcion TEXT NOT NULL,
-          fecha TEXT NOT NULL,
-          hora TEXT NOT NULL,
-          completada INTEGER DEFAULT 0,
-          notificacion_id INTEGER
-        );
-      `;
-      
-      await this.db.execute(query);
-      console.log('Tabla creada/verificada');
-      
-      this.isInit = true;
-      console.log('Base de datos inicializada correctamente en Android');
-    } catch (error) {
-      console.error('Error al inicializar DB en Android:', error);
-      throw error;
+    if (notesData) {
+      this.notes = JSON.parse(notesData);
+      this.nextNoteId = Math.max(...this.notes.map(n => n.id), 0) + 1;
+    }
+    if (tasksData) {
+      this.tasks = JSON.parse(tasksData);
+      this.nextTaskId = Math.max(...this.tasks.map(t => t.id), 0) + 1;
     }
   }
 
-  async agregarTarea(descripcion: string, fecha: string, hora: string, notificacionId: number) {
-    if (Capacitor.getPlatform() === 'web') {
-      console.log('En web, no se guarda');
-      return;
-    }
-    
-    if (!this.db) {
-      await this.initializeDatabase();
-    }
-    
-    if (!this.db) {
-      throw new Error('No se pudo inicializar la base de datos');
-    }
-    
-    try {
-      const query = `
-        INSERT INTO tareas (descripcion, fecha, hora, notificacion_id)
-        VALUES (?, ?, ?, ?)
-      `;
-      const values = [descripcion, fecha, hora, notificacionId];
-      const result = await this.db.run(query, values);
-      console.log('Tarea insertada en Android:', result);
-      return result;
-    } catch (error) {
-      console.error('Error al insertar tarea:', error);
-      throw error;
+  private saveToLocalStorage(): void {
+    localStorage.setItem('subjects', JSON.stringify(this.subjects));
+    localStorage.setItem('notes', JSON.stringify(this.notes));
+    localStorage.setItem('tasks', JSON.stringify(this.tasks));
+  }
+
+  // Subjects
+  async getSubjects(): Promise<Subject[]> {
+    return this.subjects;
+  }
+
+  async addSubject(name: string, color: string): Promise<void> {
+    const newSubject: Subject = {
+      id: this.nextSubjectId++,
+      name,
+      color
+    };
+    this.subjects.push(newSubject);
+    this.saveToLocalStorage();
+  }
+
+  async deleteSubject(id: number): Promise<void> {
+    this.subjects = this.subjects.filter(s => s.id !== id);
+    this.notes = this.notes.filter(n => n.subject_id !== id);
+    this.saveToLocalStorage();
+  }
+
+  // Notes
+  async getNotesBySubject(subjectId: number): Promise<Note[]> {
+    return this.notes.filter(n => n.subject_id === subjectId);
+  }
+
+  async addNote(subjectId: number, title: string, content: string): Promise<void> {
+    const newNote: Note = {
+      id: this.nextNoteId++,
+      subject_id: subjectId,
+      title,
+      content
+    };
+    this.notes.push(newNote);
+    this.saveToLocalStorage();
+  }
+
+  async updateNote(id: number, title: string, content: string): Promise<void> {
+    const note = this.notes.find(n => n.id === id);
+    if (note) {
+      note.title = title;
+      note.content = content;
+      this.saveToLocalStorage();
     }
   }
 
-  async obtenerTareas() {
-    if (Capacitor.getPlatform() === 'web') {
-      return [];
-    }
-    
-    if (!this.db) {
-      await this.initializeDatabase();
-    }
-    
-    if (!this.db) {
-      return [];
-    }
-    
-    try {
-      const query = 'SELECT * FROM tareas ORDER BY fecha, hora';
-      const result = await this.db.query(query);
-      console.log('Tareas obtenidas de Android:', result.values);
-      return result.values || [];
-    } catch (error) {
-      console.error('Error al obtener tareas:', error);
-      return [];
+  async deleteNote(id: number): Promise<void> {
+    this.notes = this.notes.filter(n => n.id !== id);
+    this.saveToLocalStorage();
+  }
+
+  async getNoteById(id: number): Promise<Note | null> {
+    return this.notes.find(n => n.id === id) || null;
+  }
+
+  // Tasks
+  async getTasks(): Promise<Task[]> {
+    return this.tasks;
+  }
+
+  async addTask(description: string, date: string, time: string, subject_id: number): Promise<number> {
+    const newTask: Task = {
+      id: this.nextTaskId++,
+      description,
+      date,
+      time,
+      completed: false,
+      subject_id
+    };
+    this.tasks.push(newTask);
+    this.saveToLocalStorage();
+    return newTask.id;
+  }
+
+  async updateTask(id: number, completed: boolean): Promise<void> {
+    const task = this.tasks.find(t => t.id === id);
+    if (task) {
+      task.completed = completed;
+      this.saveToLocalStorage();
     }
   }
 
-  async eliminarTarea(id: number) {
-    if (Capacitor.getPlatform() === 'web') return;
-    
-    if (!this.db) {
-      await this.initializeDatabase();
-    }
-    
+  async deleteTask(id: number): Promise<void> {
+    this.tasks = this.tasks.filter(t => t.id !== id);
+    this.saveToLocalStorage();
+  }
+
+  async getUpcomingTasks(): Promise<Task[]> {
+    const now = new Date();
+    const twoHoursLater = new Date(now.getTime() + 2 * 60 * 60 * 1000);
+    const dateStr = twoHoursLater.toISOString().split('T')[0];
+    const timeStr = twoHoursLater.toTimeString().split(' ')[0].substring(0, 5);
+
+    return this.tasks.filter(t => 
+      t.date === dateStr && t.time <= timeStr && !t.completed
+    );
+  }
+
+  // Notifications
+  async scheduleTaskNotification(taskId: number, description: string, date: string, time: string): Promise<void> {
     try {
-      const query = 'DELETE FROM tareas WHERE id = ?';
-      await this.db!.run(query, [id]);
-      console.log('Tarea eliminada de Android:', id);
+      const [year, month, day] = date.split('-').map(Number);
+      const [hour, minute] = time.split(':').map(Number);
+      const scheduleDate = new Date(year, month - 1, day, hour, minute);
+
+      await LocalNotifications.schedule({
+        notifications: [{
+          id: taskId,
+          title: 'Recordatorio de Tarea',
+          body: description,
+          schedule: { at: scheduleDate }
+        }]
+      });
     } catch (error) {
-      console.error('Error al eliminar tarea:', error);
-      throw error;
+      console.error('Error scheduling notification:', error);
     }
   }
 
-  async actualizarTareaCompletada(id: number, completada: number) {
-    if (Capacitor.getPlatform() === 'web') return;
-    
-    if (!this.db) {
-      await this.initializeDatabase();
-    }
-    
+  async cancelTaskNotification(taskId: number): Promise<void> {
     try {
-      const query = 'UPDATE tareas SET completada = ? WHERE id = ?';
-      await this.db!.run(query, [completada, id]);
-      console.log('Tarea actualizada en Android:', id);
+      await LocalNotifications.cancel({ notifications: [{ id: taskId }] });
     } catch (error) {
-      console.error('Error al actualizar tarea:', error);
-      throw error;
+      console.error('Error canceling notification:', error);
     }
+  }
+
+  // Compatibility methods for tab3 component
+  async obtenerTareas(): Promise<any[]> {
+    return this.tasks.map(t => ({
+      id: t.id,
+      descripcion: t.description,
+      fecha: t.date,
+      hora: t.time,
+      completada: t.completed ? 1 : 0,
+      notificacion_id: t.id,
+      subject_id: t.subject_id
+    }));
+  }
+
+  async agregarTarea(descripcion: string, fecha: string, hora: string, notificacionId: number, subject_id: number): Promise<void> {
+    await this.addTask(descripcion, fecha, hora, subject_id);
+  }
+
+  async eliminarTarea(id: number): Promise<void> {
+    await this.deleteTask(id);
+  }
+
+  async actualizarTareaCompletada(id: number, completada: number): Promise<void> {
+    await this.updateTask(id, completada === 1);
   }
 }

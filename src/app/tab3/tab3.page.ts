@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonFab, IonFabButton, 
          IonCard, IonModal, IonCheckbox, IonItem, IonIcon, IonInput, 
-         IonLabel, IonButton, IonDatetime } from '@ionic/angular/standalone';
-import { DatePipe } from '@angular/common';
+         IonLabel, IonButton, IonDatetime, IonSelect, IonSelectOption } from '@ionic/angular/standalone';
+import { DatePipe, CommonModule } from '@angular/common';
 import { addIcons } from 'ionicons';
 import { trash } from 'ionicons/icons';
 import { DatabaseService } from '../services/database.service';
@@ -17,7 +17,7 @@ import { NotificationService } from '../services/notification.service';
     IonHeader, IonToolbar, IonTitle, IonContent, IonFab,
     IonFabButton, IonCard, IonModal, DatePipe, IonCheckbox, 
     IonItem, IonIcon, IonInput, IonLabel, IonButton, IonDatetime,
-    FormsModule
+    FormsModule, IonSelect, IonSelectOption, CommonModule
   ],
 })
 export class Tab3Page implements OnInit {
@@ -25,11 +25,13 @@ export class Tab3Page implements OnInit {
   
   fechaactual: Date = new Date();
   tareas: any[] = [];
+  materias: any[] = [];
   
   // Datos de la nueva tarea
   nuevaDescripcion: string = '';
   nuevaFecha: string = '';
   nuevaHora: string = '';
+  nuevaMateriaId: number = 0;
 
   constructor(
     private dbService: DatabaseService,
@@ -42,12 +44,16 @@ export class Tab3Page implements OnInit {
     this.fechaactual = new Date();
     console.log('Inicializando BD desde Tab3...');
     await this.dbService.initializeDatabase();
-    console.log('BD inicializada, cargando tareas...');
+    console.log('BD inicializada, cargando materias y tareas...');
     
-    // CAMBIADO: init() en lugar de initializeNotifications()
     await this.notificationService.init();
-    
+    await this.cargarMaterias();
     await this.cargarTareas();
+  }
+
+  async cargarMaterias() {
+    this.materias = await this.dbService.getSubjects();
+    console.log('Materias cargadas:', this.materias);
   }
 
   async cargarTareas() {
@@ -55,99 +61,118 @@ export class Tab3Page implements OnInit {
     console.log('Tareas cargadas:', this.tareas);
   }
 
-async aceptar() {
-  console.log('Valores originales:', {
-    descripcion: this.nuevaDescripcion,
-    fecha: this.nuevaFecha,
-    hora: this.nuevaHora
-  });
-
-  // Validar campos con mensajes de alerta
-  if (!this.nuevaDescripcion || this.nuevaDescripcion.trim() === '') {
-    alert('❌ Por favor, escribe una descripción para la tarea');
-    console.log('Error: Descripción vacía');
-    return;
-  }
-  
-  if (!this.nuevaFecha) {
-    alert('❌ Por favor, selecciona una fecha para la tarea');
-    console.log('Error: Fecha no seleccionada');
-    return;
-  }
-  
-  if (!this.nuevaHora) {
-    alert('❌ Por favor, selecciona una hora para la tarea');
-    console.log('Error: Hora no seleccionada');
-    return;
-  }
-
-  try {
-    // Formatear fecha y hora
-    let fechaSolo = this.nuevaFecha;
-    if (fechaSolo.includes('T')) {
-      fechaSolo = fechaSolo.split('T')[0];
-    }
-    
-    let horaSolo = this.nuevaHora;
-    if (horaSolo.includes('T')) {
-      horaSolo = horaSolo.split('T')[1].substring(0, 5);
-    }
-    
-    console.log('Valores formateados:', {
-      fecha: fechaSolo,
-      hora: horaSolo
+  async aceptar() {
+    console.log('Valores originales:', {
+      descripcion: this.nuevaDescripcion,
+      fecha: this.nuevaFecha,
+      hora: this.nuevaHora,
+      materiaId: this.nuevaMateriaId
     });
-    
-    // Programar notificación
-    const notificacionId = await this.notificationService.programar(
-      '📋 Tarea Pendiente',
-      this.nuevaDescripcion,
-      fechaSolo,
-      horaSolo
-    );
 
-    if (notificacionId === -1) {
-      alert('⚠️ La fecha y hora deben ser futuras');
+    // Validar que haya materias
+    if (this.materias.length === 0) {
+      alert('❌ Primero debe crear una materia antes de agregar una tarea');
+      console.log('Error: No hay materias disponibles');
       return;
     }
 
-    // Guardar en base de datos
-    await this.dbService.agregarTarea(
-      this.nuevaDescripcion,
-      fechaSolo,
-      horaSolo,
-      notificacionId
-    );
+    // Validar materia seleccionada
+    if (!this.nuevaMateriaId || this.nuevaMateriaId === 0) {
+      alert('❌ Por favor, selecciona una materia para la tarea');
+      console.log('Error: Materia no seleccionada');
+      return;
+    }
 
-    // Recargar tareas
-    await this.cargarTareas();
+    // Validar campos con mensajes de alerta
+    if (!this.nuevaDescripcion || this.nuevaDescripcion.trim() === '') {
+      alert('❌ Por favor, escribe una descripción para la tarea');
+      console.log('Error: Descripción vacía');
+      return;
+    }
     
-    // Limpiar formulario
-    this.nuevaDescripcion = '';
-    this.nuevaFecha = '';
-    this.nuevaHora = '';
+    if (!this.nuevaFecha) {
+      alert('❌ Por favor, selecciona una fecha para la tarea');
+      console.log('Error: Fecha no seleccionada');
+      return;
+    }
     
-    // Cerrar modal
-    this.modal.dismiss();
-    
-    console.log('Tarea guardada exitosamente');
-    alert('✅ Tarea guardada correctamente');
-    
-  } catch (error) {
-    console.error('Error al guardar tarea:', error);
-    alert('❌ Error al guardar la tarea');
+    if (!this.nuevaHora) {
+      alert('❌ Por favor, selecciona una hora para la tarea');
+      console.log('Error: Hora no seleccionada');
+      return;
+    }
+
+    try {
+      // Formatear fecha y hora
+      let fechaSolo = this.nuevaFecha;
+      if (fechaSolo.includes('T')) {
+        fechaSolo = fechaSolo.split('T')[0];
+      }
+      
+      let horaSolo = this.nuevaHora;
+      if (horaSolo.includes('T')) {
+        horaSolo = horaSolo.split('T')[1].substring(0, 5);
+      }
+      
+      console.log('Valores formateados:', {
+        fecha: fechaSolo,
+        hora: horaSolo,
+        materiaId: this.nuevaMateriaId
+      });
+      
+      // Programar notificación
+      const notificacionId = await this.notificationService.programar(
+        '📋 Tarea Pendiente',
+        this.nuevaDescripcion,
+        fechaSolo,
+        horaSolo
+      );
+
+      if (notificacionId === -1) {
+        alert('⚠️ La fecha y hora deben ser futuras');
+        return;
+      }
+
+      // Guardar en base de datos con subject_id
+      await this.dbService.agregarTarea(
+        this.nuevaDescripcion,
+        fechaSolo,
+        horaSolo,
+        notificacionId,
+        this.nuevaMateriaId
+      );
+
+      // Recargar tareas
+      await this.cargarTareas();
+      
+      // Limpiar formulario
+      this.nuevaDescripcion = '';
+      this.nuevaFecha = '';
+      this.nuevaHora = '';
+      this.nuevaMateriaId = 0;
+      
+      // Cerrar modal
+      this.modal.dismiss();
+      
+      console.log('Tarea guardada exitosamente');
+      alert('✅ Tarea guardada correctamente');
+      
+    } catch (error) {
+      console.error('Error al guardar tarea:', error);
+      alert('❌ Error al guardar la tarea');
+    }
   }
-}
+
   cancelar() {
     this.modal.dismiss();
     this.nuevaDescripcion = '';
     this.nuevaFecha = '';
     this.nuevaHora = '';
+    this.nuevaMateriaId = 0;
   }
 
   async eliminarTarea(tarea: any) {
     try {
-      // CAMBIADO: cancelar() en lugar de cancelarNotificacion()
       if (tarea.notificacion_id) {
         await this.notificationService.cancelar(tarea.notificacion_id);
       }
@@ -167,7 +192,6 @@ async aceptar() {
     await this.cargarTareas();
   }
 
-  // Método de prueba para notificaciones
   async probarNotificacion() {
     console.log('🔔 Probando notificación en 5 segundos...');
     
