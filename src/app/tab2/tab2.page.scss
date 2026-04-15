@@ -128,22 +128,6 @@ ion-card {
   }
 }
 
-.modal_buttons {
-  --background: linear-gradient(135deg, #4CAF50 0%, #5bc55f 100%);
-  --color: #ffffff;
-  --border-radius: 8px;
-  font-weight: 600;
-  transition: all 0.2s ease;
-
-  &:hover {
-    opacity: 0.9;
-  }
-
-  &:active {
-    transform: scale(0.98);
-  }
-}
-
 ion-modal {
   ion-header {
     --background: linear-gradient(135deg, #5B7FFF 0%, #7b9fff 100%);

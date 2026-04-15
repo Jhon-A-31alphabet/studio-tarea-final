@@ -1,39 +1,59 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title class="titulo">
-      Tareas por hacer - {{ fechaactual | date: 'dd/MM/yyyy' }}
-    </ion-title>
+    <ion-title class="titulo">Tareas por hacer</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense"></ion-header>
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">{{ fechaactual | date: 'dd MMMM' }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
 
-  <!-- Lista de tareas dinámica -->
-  @for (tarea of tareas; track tarea.id) {
-    <ion-card>
-      <ion-item>
-        <ion-checkbox [checked]="tarea.completada === 1" 
-                      (ionChange)="toggleCompletada(tarea)">
-          {{ tarea.descripcion }}
-        </ion-checkbox>
-      </ion-item>
-      <ion-item>
-        <ion-icon name="trash" (click)="eliminarTarea(tarea)" style="cursor: pointer;"></ion-icon>
-        <ion-label>{{ tarea.fecha | date: 'dd/MM/yyyy' }}</ion-label>
-        <ion-label>{{ tarea.hora }}</ion-label>
-      </ion-item>
-    </ion-card>
-  }
-
-  <!-- Mensaje cuando no hay tareas -->
-  @if (tareas.length === 0) {
-    <ion-card>
-      <ion-item>
-        <ion-label class="ion-text-center">No hay tareas pendientes</ion-label>
-      </ion-item>
-    </ion-card>
-  }
+  <div class="tasks-container ion-padding">
+    <!-- Lista de tareas dinámica -->
+    @if (tareas.length === 0) {
+      <ion-card class="empty-state">
+        <ion-card-header>
+          <ion-card-title>¡Sin tareas!</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <p>No hay tareas pendientes. ¡Puedes disfrutar de tu día!</p>
+        </ion-card-content>
+      </ion-card>
+    } @else {
+      @for (tarea of tareas; track tarea.id) {
+        <ion-card class="task-card" [class.completed]="tarea.completada === 1">
+          <ion-item lines="none">
+            <ion-checkbox 
+              slot="start"
+              [checked]="tarea.completada === 1" 
+              (ionChange)="toggleCompletada(tarea)"
+              class="task-checkbox">
+            </ion-checkbox>
+            <ion-label class="task-description" [class.completed-text]="tarea.completada === 1">
+              {{ tarea.descripcion }}
+            </ion-label>
+            <ion-button 
+              slot="end"
+              fill="clear" 
+              color="danger" 
+              (click)="eliminarTarea(tarea)"
+              class="delete-btn">
+              <ion-icon name="trash" slot="icon-only"></ion-icon>
+            </ion-button>
+          </ion-item>
+          <ion-item lines="none" class="task-info">
+            <ion-icon name="calendar-outline" slot="start" class="info-icon"></ion-icon>
+            <ion-label class="task-datetime">
+              {{ tarea.fecha | date: 'dd/MM/yyyy' }} - {{ tarea.hora }}
+            </ion-label>
+          </ion-item>
+        </ion-card>
+      }
+    }
+  </div>
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button id="open-modal-tareas" class="agregar">
@@ -42,68 +62,74 @@
   </ion-fab>
 
   <!-- Modal para agregar tarea -->
- <!--modal para agregar una tarea-->
-<ion-modal trigger="open-modal-tareas" #modalTarea>
-  <ng-template>
-    <ion-header>
-      <ion-toolbar>
-        <ion-title class="titulo">Nueva Tarea</ion-title>
-        <ion-button slot="end" (click)="aceptar()" class="modal_buttons">Aceptar</ion-button>
-        <ion-button slot="start" (click)="cancelar()" class="modal_buttons">Cancelar</ion-button>
-      </ion-toolbar>
-    </ion-header>
+  <ion-modal trigger="open-modal-tareas" #modalTarea>
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="cancelar()">Cancelar</ion-button>
+          </ion-buttons>
+          <ion-title class="titulo">Crear tarea</ion-title>
+          <ion-buttons slot="end">
+            <ion-button [strong]="true" (click)="aceptar()" class="modal_buttons">Guardar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
 
-    <ion-content class="ion-padding">
-      <ion-item>
-        <ion-label position="stacked">Materia *</ion-label>
-        <ion-select 
-          placeholder="Selecciona una materia"
-          [(ngModel)]="nuevaMateriaId">
-          @for (materia of materias; track materia.id) {
-            <ion-select-option [value]="materia.id">
-              {{ materia.name }}
-            </ion-select-option>
-          }
-        </ion-select>
-      </ion-item>
+      <ion-content class="ion-padding">
+        <ion-card class="form-card">
+          <ion-card-content>
+            <ion-item class="form-item">
+              <ion-label position="stacked">Materia *</ion-label>
+              <ion-select 
+                placeholder="Selecciona una materia"
+                [(ngModel)]="nuevaMateriaId">
+                @for (materia of materias; track materia.id) {
+                  <ion-select-option [value]="materia.id">
+                    {{ materia.name }}
+                  </ion-select-option>
+                }
+              </ion-select>
+            </ion-item>
 
-      @if (materias.length === 0) {
-        <ion-item>
-          <ion-label class="ion-text-center" color="danger">
-            ⚠️ Debes crear una materia primero en la sección de Materias
-          </ion-label>
-        </ion-item>
-      }
+            @if (materias.length === 0) {
+              <ion-item>
+                <ion-label class="ion-text-center" color="danger">
+                  ⚠️ Debes crear una materia primero
+                </ion-label>
+              </ion-item>
+            }
 
-      <ion-item>
-        <ion-input 
-          type="text" 
-          placeholder="Descripción de la tarea"
-          [(ngModel)]="nuevaDescripcion">
-        </ion-input>
-      </ion-item>
-      
-      <ion-item>
-        <ion-label position="stacked">Fecha</ion-label>
-        <ion-datetime 
-          presentation="date"
-          [(ngModel)]="nuevaFecha"
-          [value]="nuevaFecha">
-        </ion-datetime>
-      </ion-item>
-      
-      <ion-item>
-        <ion-label position="stacked">Hora</ion-label>
-        <ion-datetime 
-          presentation="time"
-          [(ngModel)]="nuevaHora"
-          [value]="nuevaHora">
-        </ion-datetime>
-      </ion-item>
-    </ion-content>
-  </ng-template>
-</ion-modal>
-
-
+            <ion-item class="form-item">
+              <ion-label position="stacked">Descripción *</ion-label>
+              <ion-input 
+                type="text" 
+                placeholder="Descripción de la tarea"
+                [(ngModel)]="nuevaDescripcion">
+              </ion-input>
+            </ion-item>
+            
+            <ion-item class="form-item">
+              <ion-label position="stacked">Fecha *</ion-label>
+              <ion-datetime 
+                presentation="date"
+                [(ngModel)]="nuevaFecha"
+                [value]="nuevaFecha">
+              </ion-datetime>
+            </ion-item>
+            
+            <ion-item class="form-item">
+              <ion-label position="stacked">Hora *</ion-label>
+              <ion-datetime 
+                presentation="time"
+                [(ngModel)]="nuevaHora"
+                [value]="nuevaHora">
+              </ion-datetime>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 
 </ion-content>

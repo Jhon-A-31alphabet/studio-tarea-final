@@ -1,46 +1,118 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title class="titulo">
-      Tareas Urgentes - {{ fechaactual | date: 'dd/MM/yyyy' }}
-    </ion-title>
+    <ion-title class="titulo">Inicio</ion-title>
+    <ion-button slot="end" fill="clear" class="notification-btn">
+      <ion-icon name="notifications-outline" slot="icon-only"></ion-icon>
+    </ion-button>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense"></ion-header>
 
-  <ion-text class="section-title">
-    <h2>Vencen en menos de 2 horas</h2>
-  </ion-text>
+  <!-- Saludo -->
+  <div class="greeting-section ion-padding-start ion-padding-end ion-padding-top">
+    <h1 class="greeting-title">Buenos días, {{ userName }}</h1>
+    <p class="greeting-date">{{ fechaactual | date: 'EEEE d \'de\' MMMM' }}</p>
+  </div>
 
-  @if (upcomingTasks.length === 0) {
-    <ion-card class="empty-state">
-      <ion-card-header>
-        <ion-card-title>Excelente! Sin tareas urgentes</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <p>No hay tareas que vencen en menos de 2 horas. Sigue adelante!</p>
-      </ion-card-content>
-    </ion-card>
-  } @else {
-    @for (task of upcomingTasks; track task.id) {
-      <ion-card class="task-card">
-        <ion-item lines="none">
-          <ion-checkbox 
-            slot="start"
-            [checked]="task.completed" 
-            (ionChange)="toggleCompletada(task)"
-            class="task-checkbox">
-          </ion-checkbox>
-          <ion-label class="task-description">{{ task.description }}</ion-label>
-        </ion-item>
-        <ion-item lines="none" class="task-info">
-          <ion-icon name="calendar-outline" slot="start" class="info-icon"></ion-icon>
-          <ion-label class="task-datetime">
-            {{ task.date | date: 'dd/MM/yyyy' }} - {{ task.time }}
-          </ion-label>
-        </ion-item>
-      </ion-card>
+  <!-- Progress Card -->
+  <ion-card class="progress-card ion-margin-horizontal ion-margin-vertical">
+    <ion-card-content class="progress-content">
+      <div class="progress-text">
+        <p class="progress-label">Tareas de hoy completadas</p>
+        <div class="progress-number">
+          <span class="big-number">{{ tasksProgress.completed }}</span>
+          <span class="total-number">de {{ tasksProgress.total }}</span>
+        </div>
+      </div>
+      <div class="progress-bar-container">
+        <div class="progress-bar">
+          <div class="progress-fill" [style.width.%]="tasksProgress.percentage"></div>
+        </div>
+        <div class="progress-icon">
+          <ion-icon name="checkmark-circle"></ion-icon>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Notas Recientes -->
+  <div class="section ion-padding-start ion-padding-end">
+    <div class="section-header">
+      <h2 class="section-title">Notas recientes</h2>
+      <ion-button 
+        *ngIf="recentNotes.length > 0" 
+        fill="clear" 
+        size="small"
+        (click)="viewAllNotes()"
+        class="view-all-btn">
+        Ver todas
+      </ion-button>
+    </div>
+
+    @if (recentNotes.length === 0) {
+      <p class="empty-text">No hay notas aún</p>
+    } @else {
+      <div class="notes-grid">
+        @for (note of recentNotes; track note.id) {
+          <ion-card class="note-card">
+            <ion-card-header>
+              <ion-card-title class="note-title">{{ note.title }}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content class="note-content">
+              {{ note.content | slice:0:80 }}{{ note.content.length > 80 ? '...' : '' }}
+            </ion-card-content>
+          </ion-card>
+        }
+      </div>
     }
-  }
+  </div>
+
+  <!-- Tareas Próximas a Vencer -->
+  <div class="section ion-padding-start ion-padding-end ion-padding-bottom">
+    <div class="section-header">
+      <h2 class="section-title">Tareas próximas a vencer</h2>
+      <ion-button 
+        *ngIf="upcomingTasks.length > 0" 
+        fill="clear" 
+        size="small"
+        (click)="viewAllTasks()"
+        class="view-all-btn">
+        Ver todas
+      </ion-button>
+    </div>
+
+    @if (upcomingTasks.length === 0) {
+      <ion-card class="empty-state">
+        <ion-card-header>
+          <ion-card-title>¡Excelente!</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <p>No hay tareas que vencen en menos de 2 horas</p>
+        </ion-card-content>
+      </ion-card>
+    } @else {
+      @for (task of upcomingTasks; track task.id) {
+        <ion-card class="task-card">
+          <ion-item lines="none">
+            <ion-checkbox 
+              slot="start"
+              [checked]="task.completed" 
+              (ionChange)="toggleCompletada(task)"
+              class="task-checkbox">
+            </ion-checkbox>
+            <ion-label class="task-description">{{ task.description }}</ion-label>
+          </ion-item>
+          <ion-item lines="none" class="task-info">
+            <ion-icon name="calendar-outline" slot="start" class="info-icon"></ion-icon>
+            <ion-label class="task-datetime">
+              {{ task.date | date: 'dd/MM/yyyy' }} - {{ task.time }}
+            </ion-label>
+          </ion-item>
+        </ion-card>
+      }
+    }
+  </div>
+
 </ion-content>
