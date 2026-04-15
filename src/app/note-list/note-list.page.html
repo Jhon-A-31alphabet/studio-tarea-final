@@ -1,0 +1,77 @@
+
+<ion-header [translucent]="true">
+  <ion-toolbar>
+     <ion-title id="materia_titulo" class="titulo">{{ title }}</ion-title> 
+     
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+
+  <ion-header collapse="condense">
+
+  </ion-header>
+
+<ion-item>
+
+  <ion-icon name= "arrow-back-outline" (click)="regresar_a_materias()"></ion-icon>
+  
+</ion-item>
+
+
+
+
+<!-- las notas deberan ser almacenadas en la base de datos y abrirse dinamicamente, es decir una vez
+ que son leidas de la base de datos, atraves del view engine de angular se deberan mostrar siguiendo el mismo formato mostrado-->
+
+ <!--mostrado aqui -->
+
+<ion-item>
+  <ion-card (click)="abrir_bloc_notas()" class="card_note">
+  <ion-card-header>
+    <ion-card-title>Titulo de la nota</ion-card-title>
+    <ion-card-content>Lorem ipsum dolor sit amet consectetur 
+      adipisicing elit. Saepe necessitatibus non facilis assumenda dolorem accusantium id rem. 
+      Nihil eos aspernatur suscipit commodi rem 
+      aperiam, sequi hic totam quasi vel reiciendis.</ion-card-content>
+  </ion-card-header>
+  </ion-card>
+      <ion-item>
+        <ion-icon name="trash"></ion-icon>   <!--presionando el icono trash se debera eliminar la nota tanto del menu
+        como de la base de datos-->
+      </ion-item>
+
+
+
+</ion-item>
+
+<ion-item>
+  <ion-card (click)="abrir_bloc_notas()" class="card_note">
+  <ion-card-header>
+    <ion-card-title>Titulo de la nota</ion-card-title>
+    <ion-card-content>Lorem ipsum dolor sit amet consectetur 
+      adipisicing elit. Saepe necessitatibus non facilis assumenda dolorem accusantium id rem. 
+      Nihil eos aspernatur suscipit commodi rem 
+      aperiam, sequi hic totam quasi vel reiciendis.</ion-card-content>
+  </ion-card-header>
+  </ion-card>
+
+    <ion-item>
+        <ion-icon name="trash"></ion-icon> <!--presionando el icono trash se debera eliminar la nota tanto del menu
+        como de la base de datos-->
+      </ion-item>
+
+</ion-item>
+
+
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end"  > <!--este es el boton para abrir el bloc de notas-->
+    <ion-fab-button  (click)="abrir_bloc_notas()" class="agregar">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>
+
+
