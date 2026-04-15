@@ -19,7 +19,7 @@
   <!-- es decir a la lista de notas de la materia -->
 </ion-item>
 
-<ion-textarea label="Titulo" labelPlacement="floating" fill="outline" placeholder="Escribe el titulo aqui" id="text_area_titulo">
+<ion-textarea label="Titulo" labelPlacement="floating" fill="outline" placeholder="Escribe el titulo aqui" [(ngModel)]="title" id="text_area_titulo">
   <!-- en este  text area se debera cargar el titulo de la nota guardada en la base de datos (la nota mostrada en el menu), de lo contrario si se presiona el -->
    <!-- el boton  + en la lista de materias   este debera  cargarse en blanco-->
 </ion-textarea>
@@ -32,7 +32,7 @@
 
   <ion-textarea
     placeholder="Escribe algo aqui"
-    [autoGrow]="true" id="text_area_nota">
+    [autoGrow]="true" [(ngModel)]="content" id="text_area_nota">
   </ion-textarea>
 </ion-item>
 
