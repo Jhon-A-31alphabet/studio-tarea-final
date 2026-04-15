@@ -30,8 +30,19 @@ export class NotepadPage implements OnInit {
 
   async ngOnInit() {
     this.route.queryParams.subscribe(async params => {
-      this.noteId = params['noteId'] ? +params['noteId'] : null;
-      this.subjectId = params['subjectId'] ? +params['subjectId'] : 0;
+      const noteIdParam = params['noteId'];
+      const subjectIdParam = params['subjectId'];
+      
+      if (noteIdParam) {
+        this.noteId = +noteIdParam;
+      }
+      
+      if (subjectIdParam) {
+        this.subjectId = +subjectIdParam;
+      }
+      
+      console.log('NotepadPage params - noteId:', this.noteId, 'subjectId:', this.subjectId);
+      
       if (this.noteId) {
         await this.loadNote();
       }
@@ -51,10 +62,24 @@ export class NotepadPage implements OnInit {
   }
 
   async saveNote() {
+    // Validar que hay contenido que guardar
+    if (!this.title.trim() && !this.content.trim()) {
+      console.warn('Intento de guardar nota vacía');
+      alert('Por favor, escribe un título o contenido para la nota');
+      return;
+    }
+
+    console.log('Guardando nota - noteId:', this.noteId, 'subjectId:', this.subjectId);
+
     if (this.noteId) {
+      console.log('Actualizando nota existente');
       await this.dbService.updateNote(this.noteId, this.title, this.content);
-    } else if (this.subjectId) {
+    } else if (this.subjectId > 0) {
+      console.log('Creando nueva nota en materia:', this.subjectId);
       await this.dbService.addNote(this.subjectId, this.title, this.content);
+    } else {
+      console.error('No se puede guardar: falta subjectId');
+      alert('Error: No se pudo identificar la materia');
     }
   }
 
@@ -64,6 +89,8 @@ export class NotepadPage implements OnInit {
   }
 
   async regresar_a_lista_notas(){
+    // Agregar un pequeño delay para asegurar que se guardó
+    await new Promise(resolve => setTimeout(resolve, 100));
     this.router_.navigate(['/note-list'], { queryParams: { subjectId: this.subjectId } });
   }
 
