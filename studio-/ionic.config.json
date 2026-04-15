@@ -1,7 +1,0 @@
-{
-  "name": "studio-",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "angular-standalone"
-}
