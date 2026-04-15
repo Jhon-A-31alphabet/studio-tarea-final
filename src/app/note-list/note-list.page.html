@@ -1,53 +1,50 @@
 
 <ion-header [translucent]="true">
   <ion-toolbar>
-     <ion-title id="materia_titulo" class="titulo">{{ title }}</ion-title> 
-     
+    <ion-buttons slot="start">
+      <ion-button (click)="regresar_a_materias()" class="back-button">
+        <ion-icon name="arrow-back-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="titulo">{{ title }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-
-
   <ion-header collapse="condense">
-
+    <ion-toolbar>
+      <ion-title size="large">Notas</ion-title>
+    </ion-toolbar>
   </ion-header>
 
-<ion-item>
-
-  <ion-icon name= "arrow-back-outline" (click)="regresar_a_materias()"></ion-icon>
-  
-</ion-item>
-
-
-
-
-<!-- las notas deberan ser almacenadas en la base de datos y abrirse dinamicamente, es decir una vez
- que son leidas de la base de datos, atraves del view engine de angular se deberan mostrar siguiendo el mismo formato mostrado-->
-
- <!--mostrado aqui -->
-
-<ion-item *ngFor="let note of notes">
-  <ion-card (click)="abrir_bloc_notas(note)" class="card_note">
-  <ion-card-header>
-    <ion-card-title>{{ note.title }}</ion-card-title>
-    <ion-card-content>{{ note.content.substring(0, 100) }}...</ion-card-content>
-  </ion-card-header>
-  </ion-card>
-      <ion-item>
-        <ion-icon name="trash" (click)="deleteNote(note)"></ion-icon>   <!--presionando el icono trash se debera eliminar la nota tanto del menu
-        como de la base de datos-->
+  <div class="note-list-container">
+    <ion-card *ngFor="let note of notes" (click)="abrir_bloc_notas(note)" class="note-item-card">
+      <ion-card-header>
+        <ion-card-title>{{ note.title }}</ion-card-title>
+        <ion-card-subtitle *ngIf="note.createdAt">Creada: {{ formatDate(note.createdAt) }}</ion-card-subtitle>
+        <ion-card-subtitle *ngIf="note.updatedAt && note.updatedAt !== note.createdAt">Editada: {{ formatDate(note.updatedAt) }}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>{{ note.content.substring(0, 100) }}...</ion-card-content>
+      <ion-item class="note-actions">
+        <ion-button fill="clear" color="danger" slot="end" (click)="deleteNote(note); $event.stopPropagation()">
+          <ion-icon name="trash" slot="icon-only"></ion-icon>
+        </ion-button>
       </ion-item>
-</ion-item>
+    </ion-card>
 
+    <div *ngIf="notes.length === 0" class="empty-state-card">
+      <ion-card-content class="empty-state-content">
+        <ion-icon name="document-text-outline" class="empty-state-icon"></ion-icon>
+        <p class="empty-state-text">No hay notas para esta materia aún. ¡Crea una!</p>
+      </ion-card-content>
+    </div>
+  </div>
 
-
-  <ion-fab slot="fixed" vertical="bottom" horizontal="end"  > <!--este es el boton para abrir el bloc de notas-->
-    <ion-fab-button  (click)="abrir_bloc_notas()" class="agregar">
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="abrir_bloc_notas()" class="add-note-button">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-
 </ion-content>
 
 

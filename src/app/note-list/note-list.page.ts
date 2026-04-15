@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import{IonToolbar,IonTitle,IonContent,IonHeader,IonCard,IonCardTitle,
   IonCardContent,IonCardHeader,IonItem,IonFab,IonFabButton,
-  IonIcon} from '@ionic/angular/standalone';
+  IonIcon,IonButton,IonCardSubtitle,IonButtons} from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { arrowBackOutline,trash } from 'ionicons/icons';
+import { arrowBackOutline,trash,documentTextOutline } from 'ionicons/icons';
 import { Router } from '@angular/router'; 
 import { DatabaseService, Note } from '../services/database.service';
 import { CommonModule } from '@angular/common';
@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './note-list.page.html',
   styleUrls: ['./note-list.page.scss'],
   imports:[IonToolbar,IonTitle,IonContent,IonHeader,IonCard,IonCardTitle,
-    IonCardContent,IonCardHeader,IonCard,IonItem,
+    IonCardContent,IonCardHeader,IonCard,IonItem,IonButton,IonCardSubtitle,IonButtons,
   IonIcon,IonFab,IonFabButton, CommonModule],
 })
 
@@ -24,8 +24,7 @@ export class NoteListPage implements OnInit {
   notes: Note[] = [];
 
   constructor(private route: ActivatedRoute,private router:Router, private dbService: DatabaseService) {
-    addIcons({arrowBackOutline});
-    addIcons({trash})
+    addIcons({arrowBackOutline,trash,documentTextOutline});
   }
 
   async ngOnInit() {
@@ -57,6 +56,19 @@ export class NoteListPage implements OnInit {
   async deleteNote(note: Note) {
     await this.dbService.deleteNote(note.id);
     await this.loadNotes();
+  }
+
+  formatDate(dateString: string): string {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    const options: Intl.DateTimeFormatOptions = { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    };
+    return date.toLocaleDateString('es-ES', options);
   }
 }
 

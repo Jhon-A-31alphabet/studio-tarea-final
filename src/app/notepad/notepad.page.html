@@ -1,40 +1,62 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title class="titulo">Bloc de notas</ion-title> <!-- este es el titulo de la ventana de escribir notas-->
+    <ion-buttons slot="start">
+      <ion-button (click)="regresar_a_lista_notas()" class="back-button">
+        <ion-icon name="arrow-back-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="titulo">Bloc de notas</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="guardarNota()" class="save-button" [strong]="true">
+        <ion-icon name="checkmark-done-outline" slot="icon-only"></ion-icon>
+        Guardar
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
-
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">notepad</ion-title>
+      <ion-title size="large">Nota</ion-title>
     </ion-toolbar>
   </ion-header>
 
+  <div class="note-container">
+    <ion-card class="note-card">
+      <ion-card-content>
+        <ion-item class="title-item">
+          <ion-label position="stacked" class="label-title">Título de la nota</ion-label>
+          <ion-textarea 
+            fill="outline"
+            placeholder="Escribe el título aquí" 
+            [(ngModel)]="title" 
+            id="text_area_titulo"
+            class="note-input">
+          </ion-textarea>
+        </ion-item>
 
-  <ion-item>
-  <ion-icon name= "arrow-back-outline" (click)="regresar_a_lista_notas()"></ion-icon>  <!--este es icono es para volver atras-->
-  <!-- es decir a la lista de notas de la materia -->
-</ion-item>
+        <ion-item class="content-item">
+          <ion-label position="stacked" class="label-content">Contenido</ion-label>
+          <ion-textarea
+            fill="outline"
+            placeholder="Escribe tu nota aquí"
+            [autoGrow]="true" 
+            [(ngModel)]="content" 
+            id="text_area_nota"
+            class="note-input">
+          </ion-textarea>
+        </ion-item>
 
-<ion-textarea label="Titulo" labelPlacement="floating" fill="outline" placeholder="Escribe el titulo aqui" [(ngModel)]="title" id="text_area_titulo">
-  <!-- en este  text area se debera cargar el titulo de la nota guardada en la base de datos (la nota mostrada en el menu), de lo contrario si se presiona el -->
-   <!-- el boton  + en la lista de materias   este debera  cargarse en blanco-->
-</ion-textarea>
-
-
-<ion-item> <!-- dentro de este text area se debera cargar la nota escrita en la base de datos  o si se presiona el boton +  -->
-  <!-- este debera cargar en blanco es decir vacio-->
-
-
-
-  <ion-textarea
-    placeholder="Escribe algo aqui"
-    [autoGrow]="true" [(ngModel)]="content" id="text_area_nota">
-  </ion-textarea>
-</ion-item>
-
-
+        <div *ngIf="createdAt" class="note-metadata">
+          <span class="metadata-label">Creado:</span>
+          <span class="metadata-value">{{ formatDate(createdAt) }}</span>
+        </div>
+        <div *ngIf="updatedAt && updatedAt !== createdAt" class="note-metadata">
+          <span class="metadata-label">Editado:</span>
+          <span class="metadata-value">{{ formatDate(updatedAt) }}</span>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>

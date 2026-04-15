@@ -13,6 +13,8 @@ export interface Note {
   subject_id: number;
   title: string;
   content: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface Task {
@@ -95,11 +97,14 @@ export class DatabaseService {
   }
 
   async addNote(subjectId: number, title: string, content: string): Promise<void> {
+    const now = new Date().toISOString();
     const newNote: Note = {
       id: this.nextNoteId++,
       subject_id: subjectId,
       title,
-      content
+      content,
+      createdAt: now,
+      updatedAt: now
     };
     this.notes.push(newNote);
     this.saveToLocalStorage();
@@ -110,6 +115,7 @@ export class DatabaseService {
     if (note) {
       note.title = title;
       note.content = content;
+      note.updatedAt = new Date().toISOString();
       this.saveToLocalStorage();
     }
   }

@@ -1,14 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
-// Agregamos IonButtons a la lista de abajo
 import { 
   IonHeader, IonToolbar, IonTitle, IonContent, 
   IonCard, IonCardHeader, IonCardTitle, IonModal,
   IonFab, IonFabButton, IonIcon, IonButton, 
-   IonInput, IonItem, IonLabel,
+  IonInput, IonItem, IonLabel, IonButtons, IonCardContent
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { add,trash } from 'ionicons/icons';
-import { Router } from '@angular/router'; // Importa Router
+import { add, trash, bookOutline } from 'ionicons/icons';
+import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { DatabaseService, Subject } from '../services/database.service';
 import { FormsModule } from '@angular/forms';
@@ -18,12 +17,12 @@ import { CommonModule } from '@angular/common';
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss'],
-  standalone: true, // Asegúrate de que tenga esto si es standalone
+  standalone: true,
   imports: [
     IonHeader, IonToolbar, IonTitle, IonContent, IonCard, 
     IonCardHeader, IonCardTitle, IonFab, IonFabButton, 
     IonIcon, IonModal, IonButton, IonInput, 
-    IonItem, IonLabel, FormsModule, CommonModule,
+    IonItem, IonLabel, IonButtons, IonCardContent, FormsModule, CommonModule,
   ]
 })
 export class Tab2Page {
@@ -35,8 +34,7 @@ export class Tab2Page {
   newSubjectColor: string = '#000000';
 
   constructor(private router:Router, private dbService: DatabaseService) {
-    addIcons({ add });
-    addIcons({trash})
+    addIcons({ add, trash, bookOutline });
   }
 
   async ngOnInit(){ // aqui deberas ejecutar la query sql para mostrar todas las materias almacenadas y con el view engine de angular

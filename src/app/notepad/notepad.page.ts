@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar,IonItem,IonIcon } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonItem, IonIcon, IonTextarea, IonButtons, IonButton, IonCard, IonCardContent, IonLabel } from '@ionic/angular/standalone';
 import { Router } from '@angular/router'; 
 import { addIcons } from 'ionicons';
-import { arrowBackOutline } from 'ionicons/icons';
-import { IonTextarea } from '@ionic/angular/standalone';
+import { arrowBackOutline, checkmarkDoneOutline } from 'ionicons/icons';
 import { ActivatedRoute } from '@angular/router';
 import { DatabaseService, Note } from '../services/database.service';
 
@@ -14,7 +13,7 @@ import { DatabaseService, Note } from '../services/database.service';
   templateUrl: './notepad.page.html',
   styleUrls: ['./notepad.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule,IonItem,IonIcon,IonTextarea]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonItem, IonIcon, IonTextarea, IonButtons, IonButton, IonCard, IonCardContent, IonLabel]
 })
 export class NotepadPage implements OnInit {
 
@@ -22,9 +21,11 @@ export class NotepadPage implements OnInit {
   subjectId: number = 0;
   title: string = '';
   content: string = '';
+  createdAt: string = '';
+  updatedAt: string = '';
 
-  constructor(private router_:Router, private route: ActivatedRoute, private dbService: DatabaseService) { 
-    addIcons({arrowBackOutline});
+  constructor(private router_: Router, private route: ActivatedRoute, private dbService: DatabaseService) { 
+    addIcons({ arrowBackOutline, checkmarkDoneOutline });
   }
 
   async ngOnInit() {
@@ -43,6 +44,8 @@ export class NotepadPage implements OnInit {
       if (note) {
         this.title = note.title;
         this.content = note.content;
+        this.createdAt = note.createdAt;
+        this.updatedAt = note.updatedAt;
       }
     }
   }
@@ -55,8 +58,25 @@ export class NotepadPage implements OnInit {
     }
   }
 
-  async regresar_a_lista_notas(){
+  async guardarNota() {
     await this.saveNote();
+    await this.regresar_a_lista_notas();
+  }
+
+  async regresar_a_lista_notas(){
     this.router_.navigate(['/note-list'], { queryParams: { subjectId: this.subjectId } });
+  }
+
+  formatDate(dateString: string): string {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    const options: Intl.DateTimeFormatOptions = { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    };
+    return date.toLocaleDateString('es-ES', options);
   }
 }
