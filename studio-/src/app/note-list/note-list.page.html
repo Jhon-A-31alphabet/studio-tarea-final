@@ -27,41 +27,17 @@
 
  <!--mostrado aqui -->
 
-<ion-item>
-  <ion-card (click)="abrir_bloc_notas()" class="card_note">
+<ion-item *ngFor="let note of notes">
+  <ion-card (click)="abrir_bloc_notas(note)" class="card_note">
   <ion-card-header>
-    <ion-card-title>Titulo de la nota</ion-card-title>
-    <ion-card-content>Lorem ipsum dolor sit amet consectetur 
-      adipisicing elit. Saepe necessitatibus non facilis assumenda dolorem accusantium id rem. 
-      Nihil eos aspernatur suscipit commodi rem 
-      aperiam, sequi hic totam quasi vel reiciendis.</ion-card-content>
+    <ion-card-title>{{ note.title }}</ion-card-title>
+    <ion-card-content>{{ note.content.substring(0, 100) }}...</ion-card-content>
   </ion-card-header>
   </ion-card>
       <ion-item>
-        <ion-icon name="trash"></ion-icon>   <!--presionando el icono trash se debera eliminar la nota tanto del menu
+        <ion-icon name="trash" (click)="deleteNote(note)"></ion-icon>   <!--presionando el icono trash se debera eliminar la nota tanto del menu
         como de la base de datos-->
       </ion-item>
-
-
-
-</ion-item>
-
-<ion-item>
-  <ion-card (click)="abrir_bloc_notas()" class="card_note">
-  <ion-card-header>
-    <ion-card-title>Titulo de la nota</ion-card-title>
-    <ion-card-content>Lorem ipsum dolor sit amet consectetur 
-      adipisicing elit. Saepe necessitatibus non facilis assumenda dolorem accusantium id rem. 
-      Nihil eos aspernatur suscipit commodi rem 
-      aperiam, sequi hic totam quasi vel reiciendis.</ion-card-content>
-  </ion-card-header>
-  </ion-card>
-
-    <ion-item>
-        <ion-icon name="trash"></ion-icon> <!--presionando el icono trash se debera eliminar la nota tanto del menu
-        como de la base de datos-->
-      </ion-item>
-
 </ion-item>
 
 

@@ -20,31 +20,14 @@
 
 
 <!-- los ioncards mostrados aqui son de ejemplo de como deberian de verse las tareas y las clases y paramtros que llevan-->
-  <ion-card>
+  <ion-card *ngFor="let task of tasks">
     <ion-item>
-      <ion-checkbox>Descripcion de la Tarea</ion-checkbox>
+      <ion-checkbox [(ngModel)]="task.completed" (ionChange)="toggleTask(task)">{{ task.description }}</ion-checkbox>
     </ion-item>
     <ion-item>
-      <ion-icon name="trash"></ion-icon>  <!-- este icono debera eliminar la tarea tanto de la interfaz como del taskscheduler del sistema operativo(capacitor notf.) y la base de datos-->
-      <ion-label>08/04/2026</ion-label> <!--aqui se muestra la fecha-->
-      <ion-label>07:40</ion-label> <!--aqui la hora-->
-    </ion-item>
-  </ion-card>
-
-
-
-   <ion-card>
-    <ion-item>
-      <ion-checkbox>Descripcion de la tarea</ion-checkbox>
-    </ion-item>
-    
-
-    <ion-item>
-      <ion-icon name="trash"></ion-icon>
-      <ion-label>08/04/2026</ion-label>
-      <ion-label>07:40</ion-label>
-
-
+      <ion-icon name="trash" (click)="deleteTask(task)"></ion-icon>  <!-- este icono debera eliminar la tarea tanto de la interfaz como del taskscheduler del sistema operativo(capacitor notf.) y la base de datos-->
+      <ion-label>{{ task.date }}</ion-label> <!--aqui se muestra la fecha-->
+      <ion-label>{{ task.time }}</ion-label> <!--aqui la hora-->
     </ion-item>
   </ion-card>
 
@@ -81,10 +64,10 @@
       <ion-content class="ion-padding">
         <ion-item>
           
-          <ion-label position="stacked"></ion-label>
-          <ion-input type="text" placeholder="cocinar la cena"></ion-input>
+          <ion-label position="stacked">Descripción</ion-label>
+          <ion-input type="text" [(ngModel)]="newTaskDescription" placeholder="cocinar la cena"></ion-input>
         </ion-item>
-        <ion-datetime class="datetime_style" color="primary"></ion-datetime>
+        <ion-datetime [(ngModel)]="newTaskDateTime" class="datetime_style" color="primary"></ion-datetime>
         <ion-item>
          
         </ion-item>

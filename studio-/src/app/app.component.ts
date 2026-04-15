@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
+import { DatabaseService } from './services/database.service';
+
 
 
 @Component({
@@ -8,5 +10,11 @@ import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
   imports: [IonApp, IonRouterOutlet],
 })
 export class AppComponent {
-  constructor() {}
+  constructor(private dbService: DatabaseService) {
+    this.initializeApp();
+  }
+
+  async initializeApp() {
+    await this.dbService.initializeDatabase();
+  }
 }

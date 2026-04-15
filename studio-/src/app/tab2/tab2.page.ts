@@ -10,6 +10,9 @@ import { addIcons } from 'ionicons';
 import { add,trash } from 'ionicons/icons';
 import { Router } from '@angular/router'; // Importa Router
 import { Title } from '@angular/platform-browser';
+import { DatabaseService, Subject } from '../services/database.service';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-tab2',
@@ -20,39 +23,51 @@ import { Title } from '@angular/platform-browser';
     IonHeader, IonToolbar, IonTitle, IonContent, IonCard, 
     IonCardHeader, IonCardTitle, IonFab, IonFabButton, 
     IonIcon, IonModal, IonButton, IonInput, 
-    IonItem, IonLabel,
+    IonItem, IonLabel, FormsModule, CommonModule,
   ]
 })
 export class Tab2Page {
   // Usamos el decorador para capturar la instancia del modal del HTML
   @ViewChild(IonModal) modal!: IonModal;
 
-  constructor(private router:Router) {
+  subjects: Subject[] = [];
+  newSubjectName: string = '';
+  newSubjectColor: string = '#000000';
+
+  constructor(private router:Router, private dbService: DatabaseService) {
     addIcons({ add });
     addIcons({trash})
   }
 
-  ngOnInit(){ // aqui deberas ejecutar la query sql para mostrar todas las materias almacenadas y con el view engine de angular
+  async ngOnInit(){ // aqui deberas ejecutar la query sql para mostrar todas las materias almacenadas y con el view engine de angular
     //mostrarlas y estilizarlas en la pagina tab2.page.html
-
+    await this.loadSubjects();
   }
 
+  async loadSubjects() {
+    this.subjects = await this.dbService.getSubjects();
+  }
 
   cancelar() {
     this.modal.dismiss(null, 'cancel');
+    this.newSubjectName = '';
+    this.newSubjectColor = '#000000';
   }
 
-  aceptar() {
-    // Aquí deberas capturar el nombre de la materia creada y guardarla en la base de datos sqlite.
-    console.log('Materia aceptada');
-    this.modal.dismiss(null, 'confirm');
+  async aceptar() {
+    if (this.newSubjectName.trim()) {
+      await this.dbService.addSubject(this.newSubjectName, this.newSubjectColor);
+      await this.loadSubjects();
+      this.cancelar();
+    }
   }
 
-  abrir_lista_notas(){
-    const materia = "nombre de la materia ";   // <-- aqui se debera capturar el nombre de la materia para asi colocar en el iontitle
-                                                // el nombre de la materia
-    this.router.navigate(['/note-list'],{queryParams:{title:materia}});
+  abrir_lista_notas(subject: Subject){
+    this.router.navigate(['/note-list'],{queryParams:{title: subject.name, subjectId: subject.id}});
   }
 
-
+  async deleteSubject(subject: Subject) {
+    await this.dbService.deleteSubject(subject.id);
+    await this.loadSubjects();
+  }
 }

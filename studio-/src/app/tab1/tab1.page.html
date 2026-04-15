@@ -20,14 +20,14 @@
   </ion-text>
 
 
-  <ion-card class="card_note">     <!-- en el ioncard debera mostrar el titulo de la tarea de la tarea y una breve descripcion la cual basta con tan solo 10 caracteres-->
+  <ion-card class="card_note" *ngFor="let task of upcomingTasks">     <!-- en el ioncard debera mostrar el titulo de la tarea de la tarea y una breve descripcion la cual basta con tan solo 10 caracteres-->
     <!-- la cual se faltas dos horas antes de lo agregado en el datetime  para empezarla o cumplirla-->  <!--la fecha puesta en este ioncard es solo un ejemplo al igual que la descripcion-->
   <ion-card-header >
-    <ion-card-title>Titulo de la tarea</ion-card-title>
-    <ion-card-subtitle>Vencimiento : 20/04/2026</ion-card-subtitle>
+    <ion-card-title>{{ task.description }}</ion-card-title>
+    <ion-card-subtitle>Vencimiento : {{ task.date }}</ion-card-subtitle>
   </ion-card-header>
    <ion-card-content>
-    Here's a small text description for the card content. Nothing more, nothing less.
+    Tarea programada para {{ task.time }}
   </ion-card-content>
 
 </ion-card>
