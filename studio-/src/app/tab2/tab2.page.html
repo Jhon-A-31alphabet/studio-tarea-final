@@ -1,0 +1,94 @@
+<ion-header [translucent]="true">
+<ion-toolbar>
+    <ion-title class="titulo">
+    Notas por materias
+    </ion-title>
+</ion-toolbar>
+  
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  
+  <ion-header collapse="condense">
+    <ion-toolbar>
+       <ion-title >
+    Notas por materias
+    </ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+
+  
+
+  <ion-card>
+  <ion-card-header>
+    <ion-card-title  (click)="abrir_lista_notas()">Materia</ion-card-title>
+  </ion-card-header>
+  <ion-item>
+   <ion-icon name="trash"></ion-icon>   <!--presionando el icono trash se debera eliminar la materia tanto del menu
+        como de la base de datos y a su vez  debera eliminar todas las notas relacionadas a esta.-->
+      </ion-item>
+
+  </ion-card>
+
+
+
+  <ion-card>
+  <ion-card-header>
+    <ion-card-title (click)="abrir_lista_notas()">Materia</ion-card-title>
+  </ion-card-header>
+  <ion-item>
+   <ion-icon name="trash"></ion-icon>   <!--presionando el icono trash se debera eliminar la materia tanto del menu
+        como de la base de datos  y a su vez todas las notas relacionas a esta en caso de haber-->
+      </ion-item>
+  </ion-card>
+
+  
+
+
+
+
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">  <!-- este es el boton para agregar una nueva materia +  -->
+    <ion-fab-button  id="open-modal-materias" class="agregar">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+
+
+  <ion-modal trigger="open-modal-materias">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+                    
+          <ion-title>Nueva Materia</ion-title>
+
+          <ion-button [strong]="true" (click)="aceptar()" class="modal_buttons" expand="full">Aceptar</ion-button>
+          <ion-button [strong]="true" (click)="cancelar()" class="modal_buttons" expand="full">Cancelar</ion-button>
+
+          <!-- el ionbutton aceptar debera guardar en la base de datos el nombre y id de la materia y crear un ioncard-->
+           <!-- con el nombre de la materia y el color el cual sera seleccionado a traves del color
+            picker nativo del sistema operativo como el que se muestra en la parte de arriba....   -->
+           
+        
+
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-label position="stacked">Nombre de la Materia</ion-label>
+          <ion-input type="text" placeholder="Ej. Programación 1"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input type="color" placeholder="selecciona un color"></ion-input>
+        </ion-item>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+ 
+
+</ion-content>

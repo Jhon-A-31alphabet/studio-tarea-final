@@ -1,0 +1,40 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title class="titulo">Bloc de notas</ion-title> <!-- este es el titulo de la ventana de escribir notas-->
+  </ion-toolbar>
+</ion-header>
+
+
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">notepad</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+
+  <ion-item>
+  <ion-icon name= "arrow-back-outline" (click)="regresar_a_lista_notas()"></ion-icon>  <!--este es icono es para volver atras-->
+  <!-- es decir a la lista de notas de la materia -->
+</ion-item>
+
+<ion-textarea label="Titulo" labelPlacement="floating" fill="outline" placeholder="Escribe el titulo aqui" id="text_area_titulo">
+  <!-- en este  text area se debera cargar el titulo de la nota guardada en la base de datos (la nota mostrada en el menu), de lo contrario si se presiona el -->
+   <!-- el boton  + en la lista de materias   este debera  cargarse en blanco-->
+</ion-textarea>
+
+
+<ion-item> <!-- dentro de este text area se debera cargar la nota escrita en la base de datos  o si se presiona el boton +  -->
+  <!-- este debera cargar en blanco es decir vacio-->
+
+
+
+  <ion-textarea
+    placeholder="Escribe algo aqui"
+    [autoGrow]="true" id="text_area_nota">
+  </ion-textarea>
+</ion-item>
+
+
+</ion-content>
