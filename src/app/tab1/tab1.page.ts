@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonText, IonItem, IonLabel, IonCheckbox, IonIcon, IonButton } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonText, IonItem, IonLabel, IonCheckbox, IonIcon, IonButton, IonButtons } from '@ionic/angular/standalone';
 import { DatePipe, CommonModule } from '@angular/common';
 import { DatabaseService, Task, Note } from '../services/database.service';
 import { NotificationService } from '../services/notification.service';
@@ -12,12 +12,13 @@ import { Router } from '@angular/router';
   imports: [
     IonHeader, IonToolbar, IonTitle, IonContent, IonText, IonCard, IonCardContent, 
     IonCardHeader, IonCardTitle, DatePipe, CommonModule, IonItem, 
-    IonLabel, IonCheckbox, IonIcon, IonButton
+    IonLabel, IonCheckbox, IonIcon, IonButton, IonButtons
   ],
 })
 export class Tab1Page implements OnInit, OnDestroy {
 
   userName: string = 'Usuario';
+  greeting: string = 'Buenos días';
   fechaactual: Date = new Date();
   upcomingTasks: Task[] = [];
   recentNotes: Note[] = [];
@@ -34,17 +35,31 @@ export class Tab1Page implements OnInit, OnDestroy {
     await this.dbService.initializeDatabase();
     await this.notificationService.init();
     this.fechaactual = new Date();
+    this.updateGreeting();
     await this.loadDashboardData();
     
     // Actualizar cada 30 segundos
     this.refreshInterval = setInterval(() => {
       this.loadDashboardData();
+      this.updateGreeting();
     }, 30000);
   }
 
   ngOnDestroy() {
     if (this.refreshInterval) {
       clearInterval(this.refreshInterval);
+    }
+  }
+
+  updateGreeting() {
+    const hour = new Date().getHours();
+    
+    if (hour >= 5 && hour < 12) {
+      this.greeting = 'Buenos días';
+    } else if (hour >= 12 && hour < 18) {
+      this.greeting = 'Buenas tardes';
+    } else {
+      this.greeting = 'Buenas noches';
     }
   }
 
