@@ -36,45 +36,200 @@
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
 
-
-
-.titulo{
-color: black;
-    font-family:'inter';
-    font-weight: bold;
+/* ========== Color Variables & Theme ========== */
+:root {
+	/* Primary Colors - Modern Blue */
+	--ion-color-primary: #5B7FFF;
+	--ion-color-primary-rgb: 91,127,255;
+	--ion-color-primary-contrast: #ffffff;
+	--ion-color-primary-contrast-rgb: 255,255,255;
+	--ion-color-primary-shade: #4968e8;
+	--ion-color-primary-tint: #6b8fff;
+	
+	/* Secondary Colors - Friendly Green */
+	--ion-color-secondary: #4CAF50;
+	--ion-color-secondary-rgb: 76,175,80;
+	--ion-color-secondary-contrast: #ffffff;
+	--ion-color-secondary-contrast-rgb: 255,255,255;
+	--ion-color-secondary-shade: #3d8b40;
+	--ion-color-secondary-tint: #5bc55f;
+	
+	/* Success - Bright Green */
+	--ion-color-success: #2DD4BF;
+	--ion-color-success-rgb: 45,212,191;
+	--ion-color-success-contrast: #ffffff;
+	
+	/* Warning - Warm Orange */
+	--ion-color-warning: #F59E0B;
+	--ion-color-warning-rgb: 245,158,11;
+	--ion-color-warning-contrast: #ffffff;
+	
+	/* Danger - Soft Red */
+	--ion-color-danger: #EF4444;
+	--ion-color-danger-rgb: 239,68,68;
+	--ion-color-danger-contrast: #ffffff;
 }
-.card_note{
-    background: #FEFCE8;
+
+/* ========== Global Styles ========== */
+body {
+	background-color: #f8fafc;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	--ion-background-color: #f8fafc;
 }
 
-.agregar{
-    --background:#EA580C;
-    --color:#FFFF;
+ion-content {
+	--background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
 }
 
-.tabbutton{
-    --color-focused:#EA580C;
-    --color-selected:#EA580C;
+ion-toolbar {
+	--background: linear-gradient(135deg, #5B7FFF 0%, #7b9fff 100%) !important;
+	--color: white !important;
+	box-shadow: 0 4px 12px rgba(91, 127, 255, 0.2);
 }
 
+ion-title {
+	color: white !important;
+	font-weight: 600 !important;
+	letter-spacing: 0.3px;
+}
 
-.modal_buttons{
-    --background:#EA580C; /* Color de fondo */
-    --color: white; /* Color del texto */
-    
-    
+/* ========== Card Styles ========== */
+ion-card {
+	--background: #ffffff;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+	border-radius: 12px;
+	margin: 12px;
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	
+	&:active {
+		box-shadow: 0 4px 16px rgba(91, 127, 255, 0.15);
+		transform: translateY(-2px);
+	}
+}
+
+ion-card-header {
+	background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+	padding: 16px 20px;
+	border-radius: 12px 12px 0 0;
+}
+
+/* ========== Button Styles ========== */
+.agregar {
+	--background: linear-gradient(135deg, #4CAF50 0%, #5bc55f 100%);
+	--color: #ffffff;
+	--background-hover: #3d8b40;
+	--background-activated: #2d6a30;
+	box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+	
+	&:hover {
+		box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+	}
+}
+
+.modal_buttons {
+	--background: linear-gradient(135deg, #5B7FFF 0%, #7b9fff 100%);
+	--color: #ffffff;
+	--border-radius: 8px;
+	font-weight: 600;
+	transition: all 0.2s ease;
+	
+	&:hover {
+		opacity: 0.9;
+	}
+	
+	&:active {
+		transform: scale(0.98);
+	}
 }
 
 .modal_buttons_background_W {
-        --background: #ffffff;
-
+	--background: #f8fafc;
+	--color: #5B7FFF;
+	border: 2px solid #5B7FFF;
 }
 
-:root {
-	--ion-color-primary: #EA580C;
-	--ion-color-primary-rgb: 234,88,12;
-	--ion-color-primary-contrast: #000000;
-	--ion-color-primary-contrast-rgb: 0,0,0;
-	--ion-color-primary-shade: #ce4d0b;
-	--ion-color-primary-tint: #ec6924;
+/* ========== Tab Styles ========== */
+.tabbutton {
+	--color-focused: #5B7FFF;
+	--color-selected: #5B7FFF;
+}
+
+ion-tabbar {
+	border-top: 1px solid #e5e7eb;
+	box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* ========== Text Styles ========== */
+.titulo {
+	color: white;
+	font-family: 'Segoe UI', sans-serif;
+	font-weight: 600;
+	letter-spacing: 0.3px;
+}
+
+/* ========== Note Card Specific ========== */
+.card_note {
+	background: linear-gradient(135deg, #FEF3C7 0%, #FEFCE8 100%);
+	border-left: 4px solid #F59E0B;
+	
+	ion-card-title {
+		color: #92400e;
+		font-weight: 600;
+	}
+	
+	ion-card-subtitle {
+		color: #b45309;
+	}
+}
+
+/* ========== Input & Form Styles ========== */
+ion-input,
+ion-select,
+ion-datetime {
+	--padding-start: 12px;
+	--padding-end: 12px;
+	--padding-top: 10px;
+	--padding-bottom: 10px;
+	--background: #f3f4f6;
+	--border-radius: 8px;
+	--color: #1f2937;
+	
+	&:focus {
+		--background: #ffffff;
+		box-shadow: 0 0 0 3px rgba(91, 127, 255, 0.1);
+	}
+}
+
+ion-label {
+	color: #4b5563;
+	font-weight: 500;
+	font-size: 14px;
+}
+
+/* ========== Modal Styles ========== */
+ion-modal {
+	--background: #ffffff;
+	
+	ion-header {
+		--background: linear-gradient(135deg, #5B7FFF 0%, #7b9fff 100%);
+	}
+}
+
+/* ========== Checkbox Styles ========== */
+ion-checkbox {
+	--checkmark-color: #ffffff;
+	--background-checked: linear-gradient(135deg, #4CAF50 0%, #5bc55f 100%);
+	
+	&:checked {
+		--background-checked: #2DD4BF;
+	}
+}
+
+/* ========== Icon Styles ========== */
+ion-icon {
+	transition: all 0.2s ease;
+	
+	&:active {
+		transform: scale(1.1);
+	}
 }

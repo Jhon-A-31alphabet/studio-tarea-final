@@ -1,27 +1,33 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/angular/standalone';
-import {  IonText } from '@ionic/angular/standalone';
-import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle } from '@ionic/angular/standalone';
-import { DatePipe } from '@angular/common';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonText, IonItem, IonLabel, IonCheckbox, IonIcon } from '@ionic/angular/standalone';
+import { DatePipe, CommonModule } from '@angular/common';
 import { DatabaseService, Task } from '../services/database.service';
-import { CommonModule } from '@angular/common';
+import { NotificationService } from '../services/notification.service';
 
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent,IonText,IonCard,IonCardContent,IonCardHeader,IonCardTitle,IonCardSubtitle,DatePipe, CommonModule],
+  imports: [
+    IonHeader, IonToolbar, IonTitle, IonContent, IonText, IonCard, IonCardContent, 
+    IonCardHeader, IonCardTitle, DatePipe, CommonModule, IonItem, 
+    IonLabel, IonCheckbox, IonIcon
+  ],
 })
 export class Tab1Page implements OnInit, OnDestroy {
 
-  fechaactual : Date = new Date();
+  fechaactual: Date = new Date();
   upcomingTasks: Task[] = [];
   private refreshInterval: any;
 
-  constructor(private dbService: DatabaseService) {}
+  constructor(
+    private dbService: DatabaseService,
+    private notificationService: NotificationService
+  ) {}
 
   async ngOnInit() { 
     await this.dbService.initializeDatabase();
+    await this.notificationService.init();
     this.fechaactual = new Date();
     await this.loadUpcomingTasks();
     
@@ -41,7 +47,7 @@ export class Tab1Page implements OnInit, OnDestroy {
     this.fechaactual = new Date();
     const allTasks = await this.dbService.getTasks();
     
-    // Filtrar solo tareas que vencen en menos de 2 horas
+    // Filtrar solo tareas incompletas que vencen en menos de 2 horas
     const now = new Date();
     this.upcomingTasks = allTasks.filter(task => {
       if (task.completed) return false;
@@ -53,5 +59,23 @@ export class Tab1Page implements OnInit, OnDestroy {
     });
     
     console.log('Tareas que vencen en menos de 2 horas:', this.upcomingTasks);
+  }
+
+  async toggleCompletada(task: Task) {
+    // Marcar como completada
+    await this.dbService.updateTask(task.id, true);
+    
+    // Mostrar notificacion
+    await this.notificationService.programar(
+      'Tarea Completada',
+      `Excelente! La tarea "${task.description}" ha sido completada!`,
+      new Date().toISOString().split('T')[0],
+      new Date().toTimeString().split(' ')[0].substring(0, 5)
+    );
+    
+    alert(`Excelente! Tarea "${task.description}" completada`);
+    
+    // Recargar tareas (la tarea desaparecera porque ya esta completada)
+    await this.loadUpcomingTasks();
   }
 }

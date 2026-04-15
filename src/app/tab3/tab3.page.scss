@@ -1,33 +1,185 @@
-	:root {
-		--ion-color-new: ##EA580C;
-		--ion-color-new-rgb: 0,0,0;
-		--ion-color-new-contrast: #ffffff;
-		--ion-color-new-contrast-rgb: 255,255,255;
-		--ion-color-new-shade: #000000;
-		--ion-color-new-tint: #1a1a1a;
-	}
+/* ========== Tab3 Page Styles ========== */
 
-	.ion-color-new {
-		--ion-color-base: var(--ion-color-new);
-		--ion-color-base-rgb: var(--ion-color-new-rgb);
-		--ion-color-contrast: var(--ion-color-new-contrast);
-		--ion-color-contrast-rgb: var(--ion-color-new-contrast-rgb);
-		--ion-color-shade: var(--ion-color-new-shade);
-		--ion-color-tint: var(--ion-color-new-tint);
-	}
-	.titulo {
+:root {
+  --ion-color-new: #5B7FFF;
+  --ion-color-new-rgb: 91,127,255;
+  --ion-color-new-contrast: #ffffff;
+  --ion-color-new-contrast-rgb: 255,255,255;
+  --ion-color-new-shade: #4968e8;
+  --ion-color-new-tint: #6b8fff;
+}
+
+.ion-color-new {
+  --ion-color-base: var(--ion-color-new);
+  --ion-color-base-rgb: var(--ion-color-new-rgb);
+  --ion-color-contrast: var(--ion-color-new-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-new-contrast-rgb);
+  --ion-color-shade: var(--ion-color-new-shade);
+  --ion-color-tint: var(--ion-color-new-tint);
+}
+
+.titulo {
   color: white !important;
+  font-weight: 600;
+  letter-spacing: 0.3px;
 }
 
 ion-toolbar {
-  --background: #787879; /* Fondo azul de Ionic */
+  --background: linear-gradient(135deg, #5B7FFF 0%, #7b9fff 100%) !important;
   color: white;
+  box-shadow: 0 4px 12px rgba(91, 127, 255, 0.2);
 }
 
 ion-title {
   color: white;
+  font-weight: 600;
 }
 
+/* ========== Modal Button Styles ========== */
 .modal_buttons {
   color: white !important;
+  --background: linear-gradient(135deg, #5B7FFF 0%, #7b9fff 100%);
+  --border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+
+  &:first-of-type {
+    margin-right: 10px;
+  }
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.modal_buttons_background_W {
+  --background: #f8fafc;
+  --color: #5B7FFF;
+  border: 2px solid #5B7FFF;
+  font-weight: 600;
+}
+
+/* ========== Card Styles for Tasks ========== */
+ion-card {
+  --background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  margin: 12px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-left: 4px solid #4CAF50;
+
+  &:hover {
+    box-shadow: 0 4px 16px rgba(91, 127, 255, 0.15);
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+/* ========== Checkbox Styles ========== */
+ion-checkbox {
+  --checkmark-color: #ffffff;
+  --background-checked: linear-gradient(135deg, #4CAF50 0%, #5bc55f 100%);
+  --border-radius: 6px;
+
+  &:focus {
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+  }
+}
+
+/* ========== Item Styles ========== */
+ion-item {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  --background: transparent;
+  --border-bottom: none;
+}
+
+ion-label {
+  color: #4b5563;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+/* ========== Icon Styles ========== */
+ion-icon {
+  color: #EF4444;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: #DC2626;
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+/* ========== Fab Button Styles ========== */
+ion-fab-button {
+  --background: linear-gradient(135deg, #4CAF50 0%, #5bc55f 100%);
+  --color: #ffffff;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+  transition: all 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+/* ========== Input Styles ========== */
+ion-input,
+ion-select,
+ion-datetime {
+  --padding-start: 12px;
+  --padding-end: 12px;
+  --padding-top: 10px;
+  --padding-bottom: 10px;
+  --background: #f3f4f6;
+  --border-radius: 8px;
+  --color: #1f2937;
+  transition: all 0.2s ease;
+
+  &:focus {
+    --background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(91, 127, 255, 0.1);
+  }
+}
+
+/* ========== Modal Header ========== */
+ion-modal ion-header {
+  --background: linear-gradient(135deg, #5B7FFF 0%, #7b9fff 100%);
+  box-shadow: 0 4px 12px rgba(91, 127, 255, 0.2);
+}
+
+/* ========== Modal Content ========== */
+ion-modal ion-content {
+  --background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+}
+
+/* ========== Responsive Design ========== */
+@media (max-width: 576px) {
+  ion-card {
+    margin: 10px 12px;
+  }
+
+  .modal_buttons {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
 }

@@ -1,0 +1,153 @@
+/* ========== Tab1 Page Styles ========== */
+
+.section-title {
+  display: block;
+  padding: 20px 16px 10px;
+  color: #5B7FFF;
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+
+  h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: #1f2937;
+  }
+}
+
+/* ========== Empty State Card ========== */
+.empty-state {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border-left: 4px solid #0EA5E9;
+  margin-top: 20px;
+
+  ion-card-header {
+    background: transparent;
+    padding-bottom: 8px;
+  }
+
+  ion-card-title {
+    color: #0c4a6e;
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+
+  ion-card-content {
+    padding-top: 0;
+
+    p {
+      color: #0c4a6e;
+      font-size: 14px;
+      margin: 0;
+      line-height: 1.5;
+    }
+  }
+}
+
+/* ========== Task Cards ========== */
+.task-card {
+  --background: #ffffff;
+  margin: 12px 16px;
+  border-left: 4px solid #4CAF50;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.1);
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+
+  &:hover {
+    box-shadow: 0 4px 16px rgba(76, 175, 80, 0.15);
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(76, 175, 80, 0.1);
+  }
+}
+
+/* ========== Task Container ========== */
+ion-item {
+  --padding-start: 12px;
+  --padding-end: 12px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  --background: transparent;
+  --border-bottom: none;
+
+  &:first-child {
+    --padding-bottom: 8px;
+  }
+}
+
+/* ========== Task Checkbox ========== */
+.task-checkbox {
+  --checkbox-background-checked: linear-gradient(135deg, #4CAF50 0%, #5bc55f 100%);
+  --checkmark-color: #ffffff;
+  --border-radius: 6px;
+  margin-right: 12px;
+
+  &:focus {
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+  }
+}
+
+/* ========== Task Description Label ========== */
+.task-description {
+  color: #1f2937;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.2px;
+  padding-left: 4px;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #5B7FFF;
+  }
+}
+
+/* ========== Task Info Section ========== */
+.task-info {
+  --padding-start: 12px;
+  --padding-end: 12px;
+  --padding-top: 4px;
+  --padding-bottom: 12px;
+  --background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+  border-radius: 8px;
+  margin: 0 12px 12px 12px;
+}
+
+/* ========== Info Icon ========== */
+.info-icon {
+  color: #5B7FFF;
+  font-size: 18px;
+  margin-right: 8px;
+  transition: all 0.2s ease;
+}
+
+/* ========== Task DateTime Label ========== */
+.task-datetime {
+  color: #5B7FFF;
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.3px;
+}
+
+/* ========== Responsive Design ========== */
+@media (max-width: 576px) {
+  .section-title h2 {
+    font-size: 16px;
+  }
+
+  .task-card {
+    margin: 10px 12px;
+  }
+
+  .task-description {
+    font-size: 14px;
+  }
+
+  .task-datetime {
+    font-size: 12px;
+  }
+}

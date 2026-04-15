@@ -1,44 +1,45 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title color="black" class="titulo">
-       Buenos Días - {{ fechaactual | date: 'dd/MM/yyyy' }}
+    <ion-title class="titulo">
+      Tareas Urgentes - {{ fechaactual | date: 'dd/MM/yyyy' }}
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-   <ion-title color="black">
-     
-    </ion-title>
-  </ion-header>
+  <ion-header collapse="condense"></ion-header>
 
-  <ion-text color="black">
-    <h1>⏰ Tareas que vencen en menos de 2 horas</h1>
+  <ion-text class="section-title">
+    <h2>Vencen en menos de 2 horas</h2>
   </ion-text>
 
   @if (upcomingTasks.length === 0) {
-    <ion-card class="card_note">
+    <ion-card class="empty-state">
       <ion-card-header>
-        <ion-card-title>✅ ¡Sin tareas urgentes!</ion-card-title>
+        <ion-card-title>Excelente! Sin tareas urgentes</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        No hay tareas que vencen en menos de 2 horas.
+        <p>No hay tareas que vencen en menos de 2 horas. Sigue adelante!</p>
       </ion-card-content>
     </ion-card>
   } @else {
     @for (task of upcomingTasks; track task.id) {
-      <ion-card class="card_note">
-        <ion-card-header>
-          <ion-card-title>{{ task.description }}</ion-card-title>
-          <ion-card-subtitle>Vencimiento: {{ task.date | date: 'dd/MM/yyyy' }} a las {{ task.time }}</ion-card-subtitle>
-        </ion-card-header>
-        <ion-card-content>
-          <ion-text color="medium">
-            <p *ngIf="task.subject_id">Materia ID: {{ task.subject_id }}</p>
-          </ion-text>
-        </ion-card-content>
+      <ion-card class="task-card">
+        <ion-item lines="none">
+          <ion-checkbox 
+            slot="start"
+            [checked]="task.completed" 
+            (ionChange)="toggleCompletada(task)"
+            class="task-checkbox">
+          </ion-checkbox>
+          <ion-label class="task-description">{{ task.description }}</ion-label>
+        </ion-item>
+        <ion-item lines="none" class="task-info">
+          <ion-icon name="calendar-outline" slot="start" class="info-icon"></ion-icon>
+          <ion-label class="task-datetime">
+            {{ task.date | date: 'dd/MM/yyyy' }} - {{ task.time }}
+          </ion-label>
+        </ion-item>
       </ion-card>
     }
   }

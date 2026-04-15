@@ -189,6 +189,18 @@ export class Tab3Page implements OnInit {
   async toggleCompletada(tarea: any) {
     const completada = tarea.completada === 1 ? 0 : 1;
     await this.dbService.actualizarTareaCompletada(tarea.id, completada);
+    
+    // Mostrar notificación si se marca como completada
+    if (completada === 1) {
+      await this.notificationService.programar(
+        '✅ Tarea Completada',
+        `La tarea "${tarea.descripcion}" ha sido marcada como completada`,
+        new Date().toISOString().split('T')[0],
+        new Date().toTimeString().split(' ')[0].substring(0, 5)
+      );
+      alert(`✅ ¡Excelente! Tarea "${tarea.descripcion}" completada`);
+    }
+    
     await this.cargarTareas();
   }
 
