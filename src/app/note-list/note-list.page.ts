@@ -30,11 +30,22 @@ export class NoteListPage implements OnInit {
   async ngOnInit() {
     this.route.queryParams.subscribe(async params => {
       this.title = params['title'] || this.title;
-      this.subjectId = params['subjectId'] || 0;
-      if (this.subjectId) {
+      
+      const subjectIdParam = params['subjectId'];
+      if (subjectIdParam) {
+        this.subjectId = +subjectIdParam;
+        console.log('NoteListPage - subjectId:', this.subjectId);
         await this.loadNotes();
       }
     });
+  }
+
+  async ionViewWillEnter() {
+    // Recargar notas cuando el componente vuelva a ser visible
+    if (this.subjectId) {
+      console.log('ionViewWillEnter - recargando notas para subjectId:', this.subjectId);
+      await this.loadNotes();
+    }
   }
 
   async loadNotes() {
