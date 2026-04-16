@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonText, IonItem, IonLabel, IonCheckbox, IonIcon } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonText, IonItem, IonLabel, IonCheckbox, IonIcon, IonButton, IonButtons } from '@ionic/angular/standalone';
 import { DatePipe, CommonModule } from '@angular/common';
-import { DatabaseService, Task } from '../services/database.service';
+import { DatabaseService, Task, Note } from '../services/database.service';
 import { NotificationService } from '../services/notification.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tab1',
@@ -11,29 +12,36 @@ import { NotificationService } from '../services/notification.service';
   imports: [
     IonHeader, IonToolbar, IonTitle, IonContent, IonText, IonCard, IonCardContent, 
     IonCardHeader, IonCardTitle, DatePipe, CommonModule, IonItem, 
-    IonLabel, IonCheckbox, IonIcon
+    IonLabel, IonCheckbox, IonIcon, IonButton, IonButtons
   ],
 })
 export class Tab1Page implements OnInit, OnDestroy {
 
+  userName: string = 'Usuario';
+  greeting: string = 'Buenos días';
   fechaactual: Date = new Date();
   upcomingTasks: Task[] = [];
+  recentNotes: Note[] = [];
+  tasksProgress = { completed: 0, total: 0, percentage: 0 };
   private refreshInterval: any;
 
   constructor(
     private dbService: DatabaseService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private router: Router
   ) {}
 
   async ngOnInit() { 
     await this.dbService.initializeDatabase();
     await this.notificationService.init();
     this.fechaactual = new Date();
-    await this.loadUpcomingTasks();
+    this.updateGreeting();
+    await this.loadDashboardData();
     
     // Actualizar cada 30 segundos
     this.refreshInterval = setInterval(() => {
-      this.loadUpcomingTasks();
+      this.loadDashboardData();
+      this.updateGreeting();
     }, 30000);
   }
 
@@ -43,11 +51,26 @@ export class Tab1Page implements OnInit, OnDestroy {
     }
   }
 
-  async loadUpcomingTasks() {
-    this.fechaactual = new Date();
-    const allTasks = await this.dbService.getTasks();
+  updateGreeting() {
+    const hour = new Date().getHours();
     
-    // Filtrar solo tareas incompletas que vencen en menos de 2 horas
+    if (hour >= 5 && hour < 12) {
+      this.greeting = 'Buenos días';
+    } else if (hour >= 12 && hour < 18) {
+      this.greeting = 'Buenas tardes';
+    } else {
+      this.greeting = 'Buenas noches';
+    }
+  }
+
+  async loadDashboardData() {
+    this.fechaactual = new Date();
+    
+    // Obtener nombre del usuario
+    this.userName = await this.dbService.getUserName();
+    
+    // Obtener tareas próximas a vencer en menos de 2 horas
+    const allTasks = await this.dbService.getTasks();
     const now = new Date();
     this.upcomingTasks = allTasks.filter(task => {
       if (task.completed) return false;
@@ -58,7 +81,18 @@ export class Tab1Page implements OnInit, OnDestroy {
       return taskDate > now && taskDate <= twoHoursFromNow;
     });
     
-    console.log('Tareas que vencen en menos de 2 horas:', this.upcomingTasks);
+    // Obtener notas recientes
+    this.recentNotes = await this.dbService.getRecentNotes(2);
+    
+    // Obtener progreso de tareas
+    this.tasksProgress = await this.dbService.getTasksProgress();
+    
+    console.log('Dashboard data loaded:', {
+      userName: this.userName,
+      upcomingTasks: this.upcomingTasks,
+      recentNotes: this.recentNotes,
+      tasksProgress: this.tasksProgress
+    });
   }
 
   async toggleCompletada(task: Task) {
@@ -75,7 +109,15 @@ export class Tab1Page implements OnInit, OnDestroy {
     
     alert(`Excelente! Tarea "${task.description}" completada`);
     
-    // Recargar tareas (la tarea desaparecera porque ya esta completada)
-    await this.loadUpcomingTasks();
+    // Recargar datos del dashboard
+    await this.loadDashboardData();
+  }
+
+  viewAllTasks() {
+    this.router.navigate(['/tabs/tab3']);
+  }
+
+  viewAllNotes() {
+    this.router.navigate(['/tabs/tab2']);
   }
 }

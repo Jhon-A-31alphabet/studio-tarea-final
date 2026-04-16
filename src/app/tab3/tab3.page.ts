@@ -2,7 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonFab, IonFabButton, 
          IonCard, IonModal, IonCheckbox, IonItem, IonIcon, IonInput, 
-         IonLabel, IonButton, IonDatetime, IonSelect, IonSelectOption } from '@ionic/angular/standalone';
+         IonLabel, IonButton, IonDatetime, IonSelect, IonSelectOption, IonButtons,
+         IonCardHeader, IonCardTitle, IonCardContent } from '@ionic/angular/standalone';
 import { DatePipe, CommonModule } from '@angular/common';
 import { addIcons } from 'ionicons';
 import { trash } from 'ionicons/icons';
@@ -17,7 +18,8 @@ import { NotificationService } from '../services/notification.service';
     IonHeader, IonToolbar, IonTitle, IonContent, IonFab,
     IonFabButton, IonCard, IonModal, DatePipe, IonCheckbox, 
     IonItem, IonIcon, IonInput, IonLabel, IonButton, IonDatetime,
-    FormsModule, IonSelect, IonSelectOption, CommonModule
+    FormsModule, IonSelect, IonSelectOption, CommonModule, IonButtons,
+    IonCardHeader, IonCardTitle, IonCardContent
   ],
 })
 export class Tab3Page implements OnInit {

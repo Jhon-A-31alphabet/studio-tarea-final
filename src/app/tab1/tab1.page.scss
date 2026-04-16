@@ -1,26 +1,175 @@
-/* ========== Tab1 Page Styles ========== */
+/* ========== Tab1 Page Styles - Dashboard ========== */
 
-.section-title {
-  display: block;
-  padding: 20px 16px 10px;
-  color: #5B7FFF;
-  font-weight: 600;
-  font-size: 16px;
-  letter-spacing: 0.5px;
-
-  h2 {
-    margin: 0;
-    font-size: 18px;
+/* ========== Greeting Section ========== */
+.greeting-section {
+  margin-bottom: 20px;
+  
+  .greeting-title {
+    font-size: 28px;
     font-weight: 700;
     color: #1f2937;
+    margin: 0 0 4px 0;
+    letter-spacing: -0.5px;
+  }
+
+  .greeting-date {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 0;
+    text-transform: capitalize;
   }
 }
 
-/* ========== Empty State Card ========== */
+/* ========== Progress Card ========== */
+.progress-card {
+  --background: linear-gradient(135deg, #FF9500 0%, #FF8C00 100%);
+  --box-shadow: 0 4px 12px rgba(255, 149, 0, 0.2);
+  margin: 16px;
+  border-radius: 16px;
+  overflow: hidden;
+  color: white;
+}
+
+.progress-content {
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.progress-text {
+  flex: 1;
+  
+  .progress-label {
+    margin: 0;
+    font-size: 14px;
+    opacity: 0.9;
+    font-weight: 500;
+  }
+
+  .progress-number {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin-top: 8px;
+    
+    .big-number {
+      font-size: 40px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .total-number {
+      font-size: 16px;
+      opacity: 0.9;
+      font-weight: 500;
+    }
+  }
+}
+
+.progress-bar-container {
+  flex: 0 0 auto;
+  width: 120px;
+  text-align: center;
+  position: relative;
+}
+
+.progress-bar {
+  height: 8px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.progress-icon {
+  ion-icon {
+    font-size: 48px;
+    opacity: 0.7;
+  }
+}
+
+/* ========== Section Styles ========== */
+.section {
+  margin-bottom: 32px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.section-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.view-all-btn {
+  --color: #5B7FFF;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: none;
+}
+
+.empty-text {
+  color: #9ca3af;
+  font-size: 14px;
+  text-align: center;
+  padding: 20px 0;
+  margin: 0;
+}
+
+/* ========== Notes Grid ========== */
+.notes-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.note-card {
+  --background: #FFFBF0;
+  border-left: 4px solid #FF9500;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  margin: 0;
+  
+  ion-card-header {
+    padding: 12px 16px;
+    background: transparent;
+  }
+
+  .note-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0;
+  }
+
+  .note-content {
+    padding: 0 16px 12px 16px;
+    color: #6b7280;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+}
+
+/* ========== Empty State ========== */
 .empty-state {
   background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
   border-left: 4px solid #0EA5E9;
-  margin-top: 20px;
+  margin: 0;
 
   ion-card-header {
     background: transparent;
@@ -29,8 +178,8 @@
 
   ion-card-title {
     color: #0c4a6e;
-    font-size: 20px;
-    margin-bottom: 12px;
+    font-size: 18px;
+    margin: 0;
   }
 
   ion-card-content {
@@ -48,7 +197,7 @@
 /* ========== Task Cards ========== */
 .task-card {
   --background: #ffffff;
-  margin: 12px 16px;
+  margin: 0 0 12px 0;
   border-left: 4px solid #4CAF50;
   box-shadow: 0 2px 8px rgba(76, 175, 80, 0.1);
   border-radius: 12px;
@@ -59,14 +208,8 @@
     box-shadow: 0 4px 16px rgba(76, 175, 80, 0.15);
     transform: translateY(-2px);
   }
-
-  &:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 8px rgba(76, 175, 80, 0.1);
-  }
 }
 
-/* ========== Task Container ========== */
 ion-item {
   --padding-start: 12px;
   --padding-end: 12px;
@@ -80,33 +223,21 @@ ion-item {
   }
 }
 
-/* ========== Task Checkbox ========== */
 .task-checkbox {
   --checkbox-background-checked: linear-gradient(135deg, #4CAF50 0%, #5bc55f 100%);
   --checkmark-color: #ffffff;
   --border-radius: 6px;
   margin-right: 12px;
-
-  &:focus {
-    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
-  }
 }
 
-/* ========== Task Description Label ========== */
 .task-description {
   color: #1f2937;
   font-weight: 600;
   font-size: 15px;
   letter-spacing: 0.2px;
   padding-left: 4px;
-  transition: color 0.2s ease;
-
-  &:hover {
-    color: #5B7FFF;
-  }
 }
 
-/* ========== Task Info Section ========== */
 .task-info {
   --padding-start: 12px;
   --padding-end: 12px;
@@ -117,15 +248,12 @@ ion-item {
   margin: 0 12px 12px 12px;
 }
 
-/* ========== Info Icon ========== */
 .info-icon {
   color: #5B7FFF;
   font-size: 18px;
   margin-right: 8px;
-  transition: all 0.2s ease;
 }
 
-/* ========== Task DateTime Label ========== */
 .task-datetime {
   color: #5B7FFF;
   font-weight: 500;
@@ -133,21 +261,33 @@ ion-item {
   letter-spacing: 0.3px;
 }
 
+/* ========== Notification Button ========== */
+.notification-btn {
+  --color: #1f2937;
+  --padding-start: 12px;
+  --padding-end: 12px;
+}
+
 /* ========== Responsive Design ========== */
 @media (max-width: 576px) {
-  .section-title h2 {
+  .greeting-title {
+    font-size: 24px;
+  }
+
+  .progress-content {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .progress-bar-container {
+    width: 100%;
+  }
+
+  .notes-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section-title {
     font-size: 16px;
-  }
-
-  .task-card {
-    margin: 10px 12px;
-  }
-
-  .task-description {
-    font-size: 14px;
-  }
-
-  .task-datetime {
-    font-size: 12px;
   }
 }

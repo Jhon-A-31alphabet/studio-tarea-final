@@ -1,185 +1,210 @@
 /* ========== Tab3 Page Styles ========== */
 
-:root {
-  --ion-color-new: #5B7FFF;
-  --ion-color-new-rgb: 91,127,255;
-  --ion-color-new-contrast: #ffffff;
-  --ion-color-new-contrast-rgb: 255,255,255;
-  --ion-color-new-shade: #4968e8;
-  --ion-color-new-tint: #6b8fff;
-}
-
-.ion-color-new {
-  --ion-color-base: var(--ion-color-new);
-  --ion-color-base-rgb: var(--ion-color-new-rgb);
-  --ion-color-contrast: var(--ion-color-new-contrast);
-  --ion-color-contrast-rgb: var(--ion-color-new-contrast-rgb);
-  --ion-color-shade: var(--ion-color-new-shade);
-  --ion-color-tint: var(--ion-color-new-tint);
-}
-
 .titulo {
   color: white !important;
   font-weight: 600;
   letter-spacing: 0.3px;
 }
 
-ion-toolbar {
-  --background: linear-gradient(135deg, #5B7FFF 0%, #7b9fff 100%) !important;
-  color: white;
-  box-shadow: 0 4px 12px rgba(91, 127, 255, 0.2);
+/* ========== Tasks Container ========== */
+.tasks-container {
+  padding-bottom: 80px;
 }
 
-ion-title {
-  color: white;
-  font-weight: 600;
-}
-
-/* ========== Modal Button Styles ========== */
-.modal_buttons {
-  color: white !important;
-  --background: linear-gradient(135deg, #5B7FFF 0%, #7b9fff 100%);
-  --border-radius: 8px;
-  font-weight: 600;
-  transition: all 0.2s ease;
-
-  &:first-of-type {
-    margin-right: 10px;
-  }
-
-  &:hover {
-    opacity: 0.9;
-  }
-
-  &:active {
-    transform: scale(0.98);
-  }
-}
-
-.modal_buttons_background_W {
-  --background: #f8fafc;
-  --color: #5B7FFF;
-  border: 2px solid #5B7FFF;
-  font-weight: 600;
-}
-
-/* ========== Card Styles for Tasks ========== */
-ion-card {
+/* ========== Task Cards ========== */
+ion-card.task-card {
   --background: #ffffff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  border-radius: 12px;
-  margin: 12px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin: 0 0 12px 0;
   border-left: 4px solid #4CAF50;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.1);
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
 
   &:hover {
-    box-shadow: 0 4px 16px rgba(91, 127, 255, 0.15);
+    box-shadow: 0 4px 16px rgba(76, 175, 80, 0.15);
     transform: translateY(-2px);
   }
 
-  &:active {
-    transform: translateY(0);
+  &.completed {
+    opacity: 0.6;
+    border-left-color: #9ca3af;
   }
 }
 
-/* ========== Checkbox Styles ========== */
-ion-checkbox {
-  --checkmark-color: #ffffff;
-  --background-checked: linear-gradient(135deg, #4CAF50 0%, #5bc55f 100%);
-  --border-radius: 6px;
+.task-description {
+  color: #1f2937 !important;
+  font-weight: 600 !important;
+  font-size: 15px !important;
+  letter-spacing: 0.2px;
+  padding-left: 8px;
+  
+  &.completed-text {
+    text-decoration: line-through;
+    color: #6b7280 !important;
+  }
+}
 
-  &:focus {
-    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+.task-info {
+  --padding-start: 12px;
+  --padding-end: 12px;
+  --padding-top: 4px;
+  --padding-bottom: 12px;
+  --background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+  border-radius: 8px;
+  margin: 0 12px 12px 12px;
+}
+
+.task-checkbox {
+  --checkbox-background-checked: linear-gradient(135deg, #4CAF50 0%, #5bc55f 100%);
+  --checkmark-color: #ffffff;
+  --border-radius: 6px;
+  margin-right: 12px;
+}
+
+.info-icon {
+  color: #5B7FFF;
+  font-size: 18px;
+  margin-right: 8px;
+}
+
+.task-datetime {
+  color: #5B7FFF !important;
+  font-weight: 500 !important;
+  font-size: 13px !important;
+  letter-spacing: 0.3px;
+}
+
+.delete-btn {
+  --color: #EF4444;
+  --padding-start: 8px;
+  --padding-end: 8px;
+}
+
+/* ========== Empty State ========== */
+.empty-state {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border-left: 4px solid #0EA5E9;
+  margin: 0;
+
+  ion-card-header {
+    background: transparent;
+    padding-bottom: 8px;
+  }
+
+  ion-card-title {
+    color: #0c4a6e;
+    font-size: 18px;
+    margin: 0;
+  }
+
+  ion-card-content {
+    padding-top: 0;
+
+    p {
+      color: #0c4a6e;
+      font-size: 14px;
+      margin: 0;
+      line-height: 1.5;
+    }
   }
 }
 
 /* ========== Item Styles ========== */
 ion-item {
-  --padding-start: 16px;
-  --padding-end: 16px;
+  --padding-start: 12px;
+  --padding-end: 12px;
   --padding-top: 12px;
   --padding-bottom: 12px;
   --background: transparent;
   --border-bottom: none;
 }
 
-ion-label {
-  color: #4b5563;
-  font-weight: 500;
-  font-size: 14px;
-}
+/* ========== Form Styles ========== */
+.form-card {
+  --background: transparent;
+  box-shadow: none;
+  margin: 0;
 
-/* ========== Icon Styles ========== */
-ion-icon {
-  color: #EF4444;
-  font-size: 20px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-
-  &:hover {
-    color: #DC2626;
-    transform: scale(1.1);
-  }
-
-  &:active {
-    transform: scale(0.95);
+  ion-card-content {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
   }
 }
 
-/* ========== Fab Button Styles ========== */
-ion-fab-button {
+.form-item {
+  --background: #f3f4f6;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  border-radius: 8px;
+  margin-bottom: 0;
+
+  ion-label {
+    color: #1f2937 !important;
+    font-weight: 600 !important;
+    margin-bottom: 8px;
+    font-size: 14px !important;
+  }
+
+  ion-input,
+  ion-select,
+  ion-datetime {
+    --color: #1f2937;
+    --background: #ffffff;
+    border-radius: 6px;
+    padding: 10px;
+    margin-top: 8px;
+  }
+}
+
+/* ========== Agregar Button ========== */
+.agregar {
   --background: linear-gradient(135deg, #4CAF50 0%, #5bc55f 100%);
   --color: #ffffff;
-  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
-  transition: all 0.2s ease;
+  --background-hover: #3d8b40;
+  --background-activated: #2d6a30;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3) !important;
 
   &:hover {
-    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
-  }
-
-  &:active {
-    transform: scale(0.95);
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4) !important;
   }
 }
 
-/* ========== Input Styles ========== */
-ion-input,
-ion-select,
-ion-datetime {
-  --padding-start: 12px;
-  --padding-end: 12px;
-  --padding-top: 10px;
-  --padding-bottom: 10px;
-  --background: #f3f4f6;
-  --border-radius: 8px;
-  --color: #1f2937;
-  transition: all 0.2s ease;
-
-  &:focus {
-    --background: #ffffff;
-    box-shadow: 0 0 0 3px rgba(91, 127, 255, 0.1);
+/* ========== Modal Styles ========== */
+ion-modal {
+  ion-header {
+    --background: linear-gradient(135deg, #5B7FFF 0%, #7b9fff 100%);
+    box-shadow: 0 4px 12px rgba(91, 127, 255, 0.2);
   }
-}
 
-/* ========== Modal Header ========== */
-ion-modal ion-header {
-  --background: linear-gradient(135deg, #5B7FFF 0%, #7b9fff 100%);
-  box-shadow: 0 4px 12px rgba(91, 127, 255, 0.2);
-}
+  ion-toolbar {
+    --background: linear-gradient(135deg, #5B7FFF 0%, #7b9fff 100%);
+  }
 
-/* ========== Modal Content ========== */
-ion-modal ion-content {
-  --background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  ion-content {
+    --background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  }
 }
 
 /* ========== Responsive Design ========== */
 @media (max-width: 576px) {
-  ion-card {
-    margin: 10px 12px;
+  .tasks-container {
+    padding: 12px;
   }
 
-  .modal_buttons {
-    font-size: 14px;
-    padding: 8px 16px;
+  ion-card.task-card {
+    margin-bottom: 10px;
+  }
+
+  .task-description {
+    font-size: 14px !important;
+  }
+
+  .task-datetime {
+    font-size: 12px !important;
   }
 }

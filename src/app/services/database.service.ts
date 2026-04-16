@@ -36,6 +36,7 @@ export class DatabaseService {
   private nextSubjectId = 1;
   private nextNoteId = 1;
   private nextTaskId = 1;
+  private userName: string = 'Usuario';
 
   constructor() {
     this.loadDataFromLocalStorage();
@@ -49,6 +50,7 @@ export class DatabaseService {
     const subjectsData = localStorage.getItem('subjects');
     const notesData = localStorage.getItem('notes');
     const tasksData = localStorage.getItem('tasks');
+    const userNameData = localStorage.getItem('userName');
 
     if (subjectsData) {
       this.subjects = JSON.parse(subjectsData);
@@ -62,12 +64,16 @@ export class DatabaseService {
       this.tasks = JSON.parse(tasksData);
       this.nextTaskId = Math.max(...this.tasks.map(t => t.id), 0) + 1;
     }
+    if (userNameData) {
+      this.userName = userNameData;
+    }
   }
 
   private saveToLocalStorage(): void {
     localStorage.setItem('subjects', JSON.stringify(this.subjects));
     localStorage.setItem('notes', JSON.stringify(this.notes));
     localStorage.setItem('tasks', JSON.stringify(this.tasks));
+    localStorage.setItem('userName', this.userName);
   }
 
   // Subjects
@@ -223,5 +229,48 @@ export class DatabaseService {
 
   async actualizarTareaCompletada(id: number, completada: number): Promise<void> {
     await this.updateTask(id, completada === 1);
+  }
+
+  // User methods
+  async setUserName(name: string): Promise<void> {
+    this.userName = name;
+    this.saveToLocalStorage();
+  }
+
+  async getUserName(): Promise<string> {
+    return this.userName;
+  }
+
+  // Dashboard methods
+  async getRecentNotes(limit: number = 2): Promise<Note[]> {
+    // Retornar las notas más recientes ordenadas por fecha de creación
+    return [...this.notes]
+      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+      .slice(0, limit);
+  }
+
+  async getTasksProgress(): Promise<{ completed: number; total: number; percentage: number }> {
+    const total = this.tasks.length;
+    const completed = this.tasks.filter(t => t.completed).length;
+    const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+    
+    return {
+      completed,
+      total,
+      percentage
+    };
+  }
+
+  async getTasksUpcomingByDate(): Promise<Task[]> {
+    const today = new Date().toISOString().split('T')[0];
+    
+    return this.tasks
+      .filter(t => !t.completed && t.date >= today)
+      .sort((a, b) => {
+        const dateCompare = a.date.localeCompare(b.date);
+        if (dateCompare !== 0) return dateCompare;
+        return a.time.localeCompare(b.time);
+      })
+      .slice(0, 3); // Limitado a 3 tareas próximas
   }
 }
